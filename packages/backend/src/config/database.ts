@@ -17,7 +17,7 @@ function getSSLConfig(env: string) {
 const connectDB = async () => {
   try {
     const options: DataSourceOptions = {
-      host: process.env.POSTGRES_HOST,
+      host: process.env.POSTGRES_HOST || 'localhost',
       port: Number(process.env.POSTGRES_PORT),
       logging: ['query', 'error'],
       type: 'postgres',
@@ -27,12 +27,13 @@ const connectDB = async () => {
       database: process.env.POSTGRES_DB,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      ssl: getSSLConfig(process.env.SERVER_MODE),
+      ssl: getSSLConfig(process.env.SERVER_MODE || ''),
       synchronize: true
     };
     await createConnection(options);
     console.log('MongoDB Connected...');
-  } catch (err) {
+    // console.log('Postgres Connected...');
+  } catch (err: any) {
     console.error(err.message);
     // Exit process with failure
     process.exit(1);
