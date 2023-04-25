@@ -3,6 +3,15 @@ import { Todo } from '../entities/Todo';
 import { TodoDTO } from '../dto/todo.dto';
 
 export default class TodoService {
+  async findOne(id: number): Promise<Todo> {
+    const todoRepository = getRepository(Todo);
+    const todo = await todoRepository.findOne({ where: { id } });
+    if (!todo) {
+      throw new Error(`Todo with id ${id} not found`);
+    }
+    return todo;
+  }
+
   async findAll() {
     const repository = getRepository(Todo);
     const todos = await repository.find();

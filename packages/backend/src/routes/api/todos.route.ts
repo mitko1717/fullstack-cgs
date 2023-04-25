@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import todoController from '../../controllers/todo.controller';
+import { isTodoExist } from '../../middlewares/todo.middleware';
+import { tryCatch } from '../../middlewares/error.middleware';
 
 const todosRouter: Router = Router();
 
-todosRouter.get('', todoController.getAllTodo.bind(todoController));
-todosRouter.post('', todoController.createTodo.bind(todoController));
-todosRouter.put('/:id', todoController.editTodo.bind(todoController));
-todosRouter.delete('/:id', todoController.deleteTodo.bind(todoController));
+todosRouter.get('', tryCatch(todoController.getAllTodo.bind(todoController)));
+todosRouter.get('/:id', isTodoExist, tryCatch(todoController.getTodoById.bind(todoController)));
+todosRouter.post('', tryCatch(todoController.createTodo.bind(todoController)));
+todosRouter.put('/:id', isTodoExist, tryCatch(todoController.editTodo.bind(todoController)));
+todosRouter.delete('/:id', isTodoExist, tryCatch(todoController.deleteTodo.bind(todoController)));
 
 export default todosRouter;

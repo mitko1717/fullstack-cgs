@@ -1,5 +1,5 @@
 export interface TodoDTO {
-  title: string;
-  description: string;
-  completed: boolean;
+  readonly title: string;
+  readonly description: string;
+  readonly completed: boolean;
 }

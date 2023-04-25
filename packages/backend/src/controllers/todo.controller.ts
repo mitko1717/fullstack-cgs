@@ -5,6 +5,12 @@ import TodoService from '../services/todo.service';
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
+  async getTodoById(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    const todo = await this.todoService.findOne(id);
+    res.send(todo);
+  }
+
   async getAllTodo(_: Request, res: Response) {
     const todos = await this.todoService.findAll();
     res.send(todos);
