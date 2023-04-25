@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import { TodoDTO } from '../dto/todo.dto';
 import TodoService from '../services/todo.service';
 
 export class TodoController {
@@ -9,19 +10,23 @@ export class TodoController {
     res.send(todos);
   }
 
-  async createTodo(_: Request, res: Response) {
-    await this.todoService.addTodo();
-    res.send('added');
+  async createTodo(req: Request, res: Response) {
+    const { title, description, completed }: TodoDTO = req.body;
+    const newTodo = await this.todoService.addTodo({ title, description, completed });
+    res.send(newTodo);
   }
 
-  async editTodo(_: Request, res: Response) {
-    await this.todoService.changeTodo();
-    res.send('edited');
+  async editTodo(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    const updatedTodo = req.body;
+    const updatedTodoEntity = await this.todoService.changeTodo(id, updatedTodo);
+    res.json(updatedTodoEntity);
   }
 
-  async deleteTodo(_: Request, res: Response) {
-    await this.todoService.deleteTodo();
-    res.send('edited');
+  async deleteTodo(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    await this.todoService.deleteTodo(id);
+    res.send('Todo deleted');
   }
 }
 
