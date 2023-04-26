@@ -3,7 +3,7 @@ import todoController from '../../controllers/todo.controller';
 import { isTodoExist } from '../../middlewares/todo.middleware';
 import { tryCatch } from '../../middlewares/error.middleware';
 import validateEntity from '../../middlewares/validateBody.middleware';
-import { Todo } from '../../entities/Todo';
+import { Todo } from '../../entities/Todo.entity';
 
 const todosRouter: Router = Router();
 

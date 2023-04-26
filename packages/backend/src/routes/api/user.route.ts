@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 // import userController from '../../controllers/user.controller';
 import validateEntity from '../../middlewares/validateBody.middleware';
-import { User } from '../../entities/User';
+import { User } from '../../entities/User.entity';
 
 const userRouter: Router = Router();
 const validateUser = validateEntity(User);

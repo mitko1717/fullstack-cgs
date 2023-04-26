@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { Todo } from '../entities/Todo';
+import { Todo } from '../entities/Todo.entity';
 import { TodoDTO } from '../dto/todo.dto';
 
 export default class TodoService {

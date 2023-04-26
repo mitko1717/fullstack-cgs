@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { createConnection, DataSourceOptions } from 'typeorm';
-import { Todo } from '../entities/Todo';
-import { User } from '../entities/User';
+import { Todo } from '../entities/Todo.entity';
+import { User } from '../entities/User.entity';
 
 const connectDB = async () => {
   try {

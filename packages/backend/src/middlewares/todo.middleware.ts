@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
-import { Todo } from '../entities/Todo';
+import { Todo } from '../entities/Todo.entity';
 
 export const isTodoExist = async (req: Request, res: Response, next: NextFunction) => {
   const id = Number(req.params.id);
