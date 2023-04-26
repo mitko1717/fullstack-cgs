@@ -1,11 +1,21 @@
-import { NextFunction, Request, Response } from 'express';
+import { plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
+import { Request, Response, NextFunction } from 'express';
 
-export const validateTodo = (req: Request, res: Response, next: NextFunction) => {
-  const { title, description } = req.body;
+type Constructor<T> = new (...args: any[]) => T;
 
-  if (!title || !description) {
-    return res.status(400).json({ error: 'Title and description are required' });
-  }
+// add extends object constraint to the type parameter
+const validateEntity =
+  <T extends object>(EntityClass: Constructor<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    const entity = plainToClass(EntityClass, req.body);
+    const errors = await validate(entity);
 
-  next();
-};
+    if (errors.length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    next();
+  };
+
+export default validateEntity;
