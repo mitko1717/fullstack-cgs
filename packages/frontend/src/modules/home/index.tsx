@@ -1,5 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
+import { TodoContainerContainer } from '../common/components/TodoContainer';
+import { SPACES } from '../theme';
 
-const HomePageContainer = () => <div>React is ready HOME</div>;
+export const MainBox = styled('div')`
+  display: flex;
+  padding: ${SPACES.l};
+`;
+
+const HomePageContainer = () => (
+  <MainBox>
+    <TodoContainerContainer />
+  </MainBox>
+);
 
 export default HomePageContainer;

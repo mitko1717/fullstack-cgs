@@ -1,3 +1,21 @@
 import React from 'react';
+import { ITodo } from '../../../../interfaces/interface';
+import { TodoElement, TodoTitle, TodoDescription, TodoButtons } from './TodoElement.styled';
+import Button from '../Button';
+import ToggleButton from '../ToggleButton';
 
-export const TodoElementContainer = () => <div>TodoElementContainer component!</div>;
+interface Item {
+  item: ITodo;
+}
+
+export const TodoElementContainer = ({ item }: Item) => (
+  <TodoElement>
+    <TodoTitle>{item.title}</TodoTitle>
+    <TodoDescription>{item.description}</TodoDescription>
+    <TodoButtons>
+      <Button text="View" />
+      <Button text="Delete" />
+      <ToggleButton toggled={item.completed} />
+    </TodoButtons>
+  </TodoElement>
+);
