@@ -1,14 +1,18 @@
 import { Router } from 'express';
 import todoController from '../../controllers/todo.controller';
-import { isTodoExist } from '../../middlewares/todo.middleware';
+import { Todo } from '../../entities/Todo.entity';
 import { tryCatch } from '../../middlewares/error.middleware';
 import validateEntity from '../../middlewares/validateBody.middleware';
-import { Todo } from '../../entities/Todo.entity';
+import { isEntityExist } from '../../middlewares/isExist.middleware';
 
 const todosRouter: Router = Router();
 
 todosRouter.get('', tryCatch(todoController.getAllTodo.bind(todoController)));
-todosRouter.get('/:id', isTodoExist, tryCatch(todoController.getTodoById.bind(todoController)));
+todosRouter.get(
+  '/:id',
+  isEntityExist(Todo),
+  tryCatch(todoController.getTodoById.bind(todoController))
+);
 todosRouter.post(
   '',
   validateEntity(Todo),
@@ -16,10 +20,14 @@ todosRouter.post(
 );
 todosRouter.put(
   '/:id',
-  isTodoExist,
+  isEntityExist(Todo),
   validateEntity(Todo),
   tryCatch(todoController.editTodo.bind(todoController))
 );
-todosRouter.delete('/:id', isTodoExist, tryCatch(todoController.deleteTodo.bind(todoController)));
+todosRouter.delete(
+  '/:id',
+  isEntityExist(Todo),
+  tryCatch(todoController.deleteTodo.bind(todoController))
+);
 
 export default todosRouter;

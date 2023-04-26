@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Relation } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import type { User } from './user.entity';
 
 @Entity()
-export class Todo {
+export class Todo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,6 +18,10 @@ export class Todo {
   @Column({ default: false })
   private: boolean;
 
-  @ManyToOne('User', 'todos')
-  user: Relation<User>;
+  @Column({ name: 'userid' })
+  userId: number;
+
+  @ManyToOne('User', 'todos', { eager: true })
+  @JoinColumn({ name: 'userid' })
+  user: User;
 }
