@@ -57,7 +57,7 @@ rules:
   global-require: 'off'
   # We love to export default on index files
   no-restricted-exports: 'off'
-  max-len: ['error', { 'code': 140 }]
+  max-len: ['error', { 'code': 150 }]
   class-methods-use-this: 'off'
 
   # ⭐ React rules
