@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ITodo } from '../../../../interfaces/interface';
 import { TodoElement, TodoTitle, TodoDescription, TodoButtons } from './TodoElement.styled';
 import Button from '../Button';
@@ -13,7 +14,9 @@ export const TodoElementContainer = ({ item }: Item) => (
     <TodoTitle>{item.title}</TodoTitle>
     <TodoDescription>{item.description}</TodoDescription>
     <TodoButtons>
-      <Button text="View" />
+      <Link to={`/todo/${item.id}`}>
+        <Button text="View" />
+      </Link>
       <Button text="Delete" />
       <ToggleButton toggled={item.completed} />
     </TodoButtons>

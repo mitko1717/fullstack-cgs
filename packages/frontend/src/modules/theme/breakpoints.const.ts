@@ -5,7 +5,7 @@ export const BREAKPOINTS = {
 };
 
 export const DEVICE = {
-  mobileM: `(min-width: ${BREAKPOINTS.mobile})`,
-  tablet: `(min-width: ${BREAKPOINTS.tablet})`,
-  desktop: `(min-width: ${BREAKPOINTS.desktop})`
+  mobileM: `(min-width: ${BREAKPOINTS.mobile}px)`,
+  tablet: `(min-width: ${BREAKPOINTS.tablet}px)`,
+  desktop: `(min-width: ${BREAKPOINTS.desktop}px)`
 };
