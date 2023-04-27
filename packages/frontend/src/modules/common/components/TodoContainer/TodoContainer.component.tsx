@@ -1,7 +1,8 @@
 import React from 'react';
-import { TodoContainer } from './TodoContainer.styled';
+import { SliderContainer, TodoContainer } from './TodoContainer.styled';
 import { ITodo } from '../../../../interfaces/interface';
 import { TodoElementContainer } from '../TodoElement';
+import { TodoSlider } from './TodoSlider';
 
 const items: ITodo[] = [
   {
@@ -49,9 +50,16 @@ const items: ITodo[] = [
 ];
 
 export const TodoContainerContainer = () => (
-  <TodoContainer>
-    {items.map((item) => (
-      <TodoElementContainer key={item.id} item={item} />
-    ))}
-  </TodoContainer>
+  <>
+    <TodoContainer>
+      {items.map((item) => (
+        <TodoElementContainer key={item.id} item={item} />
+      ))}
+    </TodoContainer>
+
+    {/* tablet slider */}
+    <SliderContainer>
+      <TodoSlider items={items} />
+    </SliderContainer>
+  </>
 );

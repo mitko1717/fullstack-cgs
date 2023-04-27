@@ -9,13 +9,16 @@ export const TodoElement = styled('div')`
   height: 33vh;
 
   @media ${DEVICE.tablet} {
-    /* max-width: 800px; */
+    width: 80%;
+    margin: ${SPACES.m} 0;
   }
 
   @media ${DEVICE.desktop} {
+    width: 100%;
     height: 100px;
     column-gap: 15px;
     flex-direction: row;
+    margin: unset;
   }
 `;
 
@@ -54,7 +57,7 @@ export const TodoButtons = styled.div`
     margin-top: none;
     justify-content: center;
     margin: auto;
-    column-gap: 10px;
+    column-gap: 5px;
     align-self: center;
     width: 20%;
   }

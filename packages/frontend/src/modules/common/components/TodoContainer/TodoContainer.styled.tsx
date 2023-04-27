@@ -9,10 +9,22 @@ export const TodoContainer = styled('div')`
   /* padding: ${SPACES.l}; */
 
   @media ${DEVICE.tablet} {
-    /* max-width: 800px; */
+    display: none;
   }
 
   @media ${DEVICE.desktop} {
-    width: 70%;
+    display: flex;
+    width: 75%;
+  }
+`;
+
+export const SliderContainer = styled.div`
+  display: none;
+  @media ${DEVICE.tablet} {
+    display: flex;
+  }
+
+  @media ${DEVICE.desktop} {
+    display: none;
   }
 `;
