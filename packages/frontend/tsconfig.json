@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "../backend/src/types/user.type.ts"  ]
 }
