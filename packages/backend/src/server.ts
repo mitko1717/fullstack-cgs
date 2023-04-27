@@ -1,13 +1,12 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import 'dotenv/config';
-
 import AppRouter from './routes';
 import connectDB from './config/database';
 
 const app = express();
 const router = new AppRouter(app);
-// Connect to MongoDB
+// Connect to DB
 connectDB();
 
 // Express configuration
