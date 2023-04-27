@@ -1,10 +1,13 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { SliderContainer, TodoContainer } from './TodoContainer.styled';
+import { Link } from 'react-router-dom';
+import { SliderContainer, TodoContainer, ButtonBox } from './TodoContainer.styled';
 import { ITodo } from '../../../../interfaces/interface';
 import { TodoElementContainer } from '../TodoElement';
 import { TodoSlider } from './TodoSlider';
 import HttpService from '../../../../http.service';
+import { APP_KEYS } from '../../consts';
+import Button from '../Button';
 
 const items: ITodo[] = [
   {
@@ -51,6 +54,12 @@ export const TodoContainerContainer = () => {
 
   return (
     <>
+      <ButtonBox>
+        <Link to={APP_KEYS.ROUTER_KEYS.ADDTODO}>
+          <Button text="add new todo" />
+        </Link>
+      </ButtonBox>
+
       <TodoContainer>
         {items.map((item) => (
           <TodoElementContainer key={item.id} item={item} />

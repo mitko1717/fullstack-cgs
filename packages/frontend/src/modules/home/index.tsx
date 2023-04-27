@@ -6,6 +6,7 @@ import { SPACES } from '../theme';
 export const MainBox = styled('div')`
   display: flex;
   padding: ${SPACES.l};
+  flex-direction: column;
 `;
 
 const HomePageContainer = () => (

@@ -25,14 +25,14 @@ class HttpService {
       return response.data;
   }
 
-  async put(url, data) {
-    const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}`;
+  async put(url, id, data) {
+    const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}`;
     const response = await this.fetchingService.put(endpoint, data);
       return response.data;
   }
 
-  async delete(url) {
-    const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}`;
+  async delete(url, id) {
+    const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}`;
     const response = await this.fetchingService.delete(endpoint);
       return response.data;
   }

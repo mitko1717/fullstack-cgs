@@ -31,5 +31,7 @@ export const ROUTER_KEYS = {
   AUTHORIZED: '/authorized',
   STARTPAGE: '/todos',
   LOGIN: '/login',
-  SIGNIN: '/signin'
+  SIGNIN: '/signin',
+  ADDTODO: '/addTodo',
+  EDITTODO: '/editTodo/:id'
 };

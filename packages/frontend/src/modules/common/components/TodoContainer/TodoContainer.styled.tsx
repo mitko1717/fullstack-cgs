@@ -28,3 +28,9 @@ export const SliderContainer = styled.div`
     display: none;
   }
 `;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  margin: ${SPACES.l} 0;
+  justify-content: center;
+`;

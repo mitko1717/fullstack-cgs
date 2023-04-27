@@ -1,27 +1,22 @@
 import React from 'react';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from 'react-query';
-import { ButtonsContainer, FormItem, AddTodoForm } from './AddTodo.styled';
+import { Link, useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
+import { ButtonsContainer, FormItem, EditTodoForm } from './EditTodo.styled';
 import Button from '../Button';
 import { APP_KEYS } from '../../consts';
 import HttpService from '../../../../http.service';
-import { AddTodo } from '../../types/AddTodo.types';
+import { EditTodo } from '../../types/AddTodo.types';
 
 const http = new HttpService('http://localhost:4200', 'api');
 
-export const AddTodoComponent = () => {
-  const navigate = useNavigate();
-  const addTodo = useMutation((formData: AddTodo) => http.post('/todos/', formData), {
-    onSuccess: () => {
-      // navigate('/todos');
-    },
-    onError: (error) => {
-      navigate('/todos');
-      console.error(error);
-    }
-  });
+export const EditTodoComponent = () => {
+  const { id } = useParams(); // get id from router
+  const queryClient = useQueryClient();
+  const cashedTodoData = queryClient.getQueryData(['todo', id]);
+  console.log('cashedTodoData', cashedTodoData);
+  const editTodo = useMutation((formData: EditTodo) => http.put(`/todos/${id}`, formData));
 
   const formSchema = yup.object().shape({
     post: yup.string().max(20, '20 charecters or less').required('Name is required'),
@@ -41,15 +36,15 @@ export const AddTodoComponent = () => {
         const formData = {
           title: values.post,
           description: values.description,
-          completed: false,
-          private: false,
+          completed: false, // cashedTodoData.completed
+          private: false, // cashedTodoData.private
           userId: 1
         };
-        addTodo.mutate(formData);
+        editTodo.mutate(formData);
       }}
     >
-      {({ isSubmitting }) => (
-        <AddTodoForm>
+      {() => (
+        <EditTodoForm>
           <FormItem>
             <label htmlFor="post">post</label>
             <Field name="post" type="post" />
@@ -66,11 +61,9 @@ export const AddTodoComponent = () => {
             <Link to={APP_KEYS.ROUTER_KEYS.STARTPAGE}>
               <Button text="Back" />
             </Link>
-            <button type="submit" disabled={isSubmitting}>
-              <Button text="Add" />
-            </button>
+            <Button text="Edit" />
           </ButtonsContainer>
-        </AddTodoForm>
+        </EditTodoForm>
       )}
     </Formik>
   );
