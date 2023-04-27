@@ -1,8 +1,10 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { SliderContainer, TodoContainer } from './TodoContainer.styled';
 import { ITodo } from '../../../../interfaces/interface';
 import { TodoElementContainer } from '../TodoElement';
 import { TodoSlider } from './TodoSlider';
+import HttpService from '../../../../http.service';
 
 const items: ITodo[] = [
   {
@@ -12,12 +14,7 @@ const items: ITodo[] = [
       'The above code uses styled-components to define the styles for the TodoApp in both mobile-first and desktop modes.',
     completed: false,
     private: false,
-    userId: 1,
-    user: {
-      id: 1,
-      email: 'john@example.com',
-      password: 'password'
-    }
+    userId: 1
   },
   {
     id: 2,
@@ -26,12 +23,7 @@ const items: ITodo[] = [
       "Additionally, has a background color that alternates between light and dark shades depending on whether it's an even or odd index.",
     completed: false,
     private: false,
-    userId: 1,
-    user: {
-      id: 1,
-      email: 'john@example.com',
-      password: 'password'
-    }
+    userId: 1
   },
   {
     id: 7,
@@ -40,26 +32,35 @@ const items: ITodo[] = [
       'The above code uses styled-components to define the styles for the TodoApp in both mobile-first and desktop modes.',
     completed: false,
     private: false,
-    userId: 1,
-    user: {
-      id: 1,
-      email: 'john@example.com',
-      password: 'password'
-    }
+    userId: 1
   }
 ];
 
-export const TodoContainerContainer = () => (
-  <>
-    <TodoContainer>
-      {items.map((item) => (
-        <TodoElementContainer key={item.id} item={item} />
-      ))}
-    </TodoContainer>
+const http = new HttpService('http://localhost:4200', 'api');
 
-    {/* tablet slider */}
-    <SliderContainer>
-      <TodoSlider items={items} />
-    </SliderContainer>
-  </>
-);
+export const useFetchTodos = () => useQuery('todos', () => http.getAll('todos'));
+
+// const fetchTodos = async () => {
+//   const response = await fetch('http://localhost:4200/api/todos/');
+//   return response.json();
+// };
+
+export const TodoContainerContainer = () => {
+  const { data, isLoading, isError } = useQuery('todos', useFetchTodos);
+  console.log(data, isLoading, isError);
+
+  return (
+    <>
+      <TodoContainer>
+        {items.map((item) => (
+          <TodoElementContainer key={item.id} item={item} />
+        ))}
+      </TodoContainer>
+
+      {/* tablet slider */}
+      <SliderContainer>
+        <TodoSlider items={items} />
+      </SliderContainer>
+    </>
+  );
+};

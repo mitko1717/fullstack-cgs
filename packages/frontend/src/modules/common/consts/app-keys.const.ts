@@ -27,6 +27,9 @@ export const BACKEND_KEYS = {
 export const ROUTER_KEYS = {
   ROOT: '/',
   TODOVIEW: '/todo/:id',
-  HOME: 'home',
-  AUTHORIZED: 'authorized'
+  HOME: '/home',
+  AUTHORIZED: '/authorized',
+  STARTPAGE: '/todos',
+  LOGIN: '/login',
+  SIGNIN: '/signin'
 };

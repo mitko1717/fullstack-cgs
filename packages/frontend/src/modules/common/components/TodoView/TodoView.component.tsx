@@ -4,6 +4,7 @@ import { ITodo } from '../../../../interfaces/interface';
 import { TodoView, Title, Description, Buttons, ButtonDiv } from './TodoView.styled';
 import Button from '../Button';
 import ToggleButton from '../ToggleButton';
+import { APP_KEYS } from '../../consts';
 
 // interface Item {
 //   item?: ITodo;
@@ -47,7 +48,7 @@ export const TodoViewComponent = () => {
         <div>Loading...</div>
       )}
 
-      <Link to="/">
+      <Link to={APP_KEYS.ROUTER_KEYS.STARTPAGE}>
         <Button text="Back" />
       </Link>
     </TodoView>
