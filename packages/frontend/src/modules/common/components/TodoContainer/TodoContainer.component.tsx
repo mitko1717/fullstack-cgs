@@ -39,18 +39,19 @@ const items: ITodo[] = [
   }
 ];
 
-const http = new HttpService('http://localhost:4200', 'api');
-
-export const useFetchTodos = () => useQuery('todos', () => http.getAll('todos'));
-
-// const fetchTodos = async () => {
-//   const response = await fetch('http://localhost:4200/api/todos/');
-//   return response.json();
-// };
-
 export const TodoContainerContainer = () => {
-  const { data, isLoading, isError } = useQuery('todos', useFetchTodos);
-  console.log(data, isLoading, isError);
+  const http = new HttpService('http://localhost:4200', 'api');
+  const { data } = useQuery('todos', async () => {
+    console.log(data);
+
+    // data, isLoading, isError
+    try {
+      return await http.getAll('todos');
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  });
 
   return (
     <>

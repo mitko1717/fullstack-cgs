@@ -13,21 +13,19 @@ import {
 import Button from '../Button';
 import ToggleButton from '../ToggleButton';
 import { APP_KEYS } from '../../consts';
+import HttpService from '../../../../http.service';
 
-// interface Item {
-//   item?: ITodo;
-// }
+const http = new HttpService('http://localhost:4200', 'api');
 
-const fetchTodo = async (id: string) => {
-  const response = await fetch(`http://localhost:4200/api/todos/${id}`);
-  return response.json();
-};
+// export const useFetchTodo = (id: number) => useQuery(['todo', id], () => http.getOne('todos', id));
 
-// export const TodoViewComponent = ({ item }: Item ) => {
 export const TodoViewComponent = () => {
   const { id } = useParams(); // get id from router
-  const { data, isLoading, isError } = useQuery(['todo', id], () => id && fetchTodo(id));
-  console.log(data, isLoading, isError);
+
+  const fetchTodo = async () => http.getOne('todos', id);
+
+  const { data } = useQuery(['todo', id], fetchTodo); // data, isLoading, isError
+  console.log(data);
 
   const item: ITodo = {
     id: 7,
@@ -36,13 +34,9 @@ export const TodoViewComponent = () => {
       'The above code uses styled-components to define the styles for the TodoApp in both mobile-first and desktop modes.',
     completed: false,
     private: false,
-    userId: 1,
-    user: {
-      id: 1,
-      email: 'john@example.com',
-      password: 'password'
-    }
+    userId: 1
   };
+
   return (
     <TodoView>
       {item ? (

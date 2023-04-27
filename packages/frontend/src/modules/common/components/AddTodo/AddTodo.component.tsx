@@ -3,7 +3,7 @@ import { Formik, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { ButtonsContainer, FormItem, AddTodoForm } from './AddTodo.styled';
+import { ButtonsContainer, FormItem, AddTodoForm, ButtonComponent } from './AddTodo.styled';
 import Button from '../Button';
 import { APP_KEYS } from '../../consts';
 import HttpService from '../../../../http.service';
@@ -15,7 +15,7 @@ export const AddTodoComponent = () => {
   const navigate = useNavigate();
   const addTodo = useMutation((formData: AddTodo) => http.post('/todos/', formData), {
     onSuccess: () => {
-      // navigate('/todos');
+      navigate('/todos');
     },
     onError: (error) => {
       navigate('/todos');
@@ -66,9 +66,9 @@ export const AddTodoComponent = () => {
             <Link to={APP_KEYS.ROUTER_KEYS.STARTPAGE}>
               <Button text="Back" />
             </Link>
-            <button type="submit" disabled={isSubmitting}>
-              <Button text="Add" />
-            </button>
+            <ButtonComponent type="submit" disabled={isSubmitting}>
+              Add
+            </ButtonComponent>
           </ButtonsContainer>
         </AddTodoForm>
       )}

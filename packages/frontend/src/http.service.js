@@ -8,13 +8,16 @@ class HttpService {
   }
 
   async getAll(url) {
+    console.log('url getAll', url);
     const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}`;
+    console.log('endpoint', endpoint);
     const response = await this.fetchingService.get(endpoint);
       return response.data;
   }
 
   async getOne(url, id) {
     const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}`;
+    console.log('endpoint', endpoint);
     const response = await this.fetchingService.get(endpoint);
       return response.data;
   }
