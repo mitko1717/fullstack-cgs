@@ -7,7 +7,6 @@ import { MainRouter } from '../navigation';
 import * as theme from '../theme';
 import * as Styled from './app.styled';
 import '../../style.css';
-// import { queryClient } from './queryClient';
 
 const queryClient = new QueryClient({
   defaultOptions: {

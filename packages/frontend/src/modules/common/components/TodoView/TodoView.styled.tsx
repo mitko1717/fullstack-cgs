@@ -11,21 +11,12 @@ export const TodoView = styled('div')`
   @media ${DEVICE.desktop} {
     width: 70%;
     margin: ${SPACES.xxl} auto 0;
-    /* height: 100px;
-    column-gap: 15px;
-    flex-direction: row; */
   }
 `;
 
 export const Title = styled.div`
   font-size: ${SIZES.large};
   margin-bottom: ${SPACES.s};
-  @media ${DEVICE.desktop} {
-    /* width: 10%;
-    font-size: ${SIZES.medium};
-    margin: ${SPACES.s} 0;
-    padding-bottom: ${SPACES.xxs}; */
-  }
 `;
 
 export const Description = styled.div`
@@ -38,7 +29,6 @@ export const Description = styled.div`
   min-height: 100px;
   max-height: 600px;
   @media ${DEVICE.desktop} {
-    /* width: 70%; */
   }
 `;
 

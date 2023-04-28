@@ -1,36 +1,26 @@
 import React from 'react';
-import { Formik, Field, ErrorMessage, useFormik } from 'formik';
+import { Formik, Field, useFormik } from 'formik';
 import * as yup from 'yup';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQueryClient, useMutation } from 'react-query';
-import { ButtonsContainer, FormItem, EditTodoForm, ButtonComponent } from './EditTodo.styled';
-import Button from '../Button';
+import { Box, FormControl, Grid, Input, InputLabel } from '@mui/material';
+import { EditTodoForm } from './EditTodo.styled';
+import { ButtonComponent } from '../Button';
 import { APP_KEYS } from '../../consts';
-import HttpService from '../../../../http.service';
 import { EditTodo } from '../../types/AddTodo.types';
 import { ITodo } from '../../../../interfaces/interface';
-// import { queryClient } from '../../../app/queryClient';
-
-type IInitialValues = {
-  title: string;
-  description: string;
-};
-
-const http = new HttpService('http://localhost:4200', 'api');
+import { http } from '../../../../http.service';
+import { IInitialValues } from '../../types/AddTodoValues';
+import { useOnAddTodoSuccess } from '../../../../helper/onSuccess';
 
 export const EditTodoComponent = () => {
+  const onAddTodoSuccess = useOnAddTodoSuccess();
   const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
   const { id } = useParams(); // get id from router
   const cashedTodoData = queryClient.getQueryData<ITodo>(['todo', id]);
 
   const editTodo = useMutation((formData: EditTodo) => http.put('todos', id, formData), {
-    onSuccess: () => {
-      queryClient.refetchQueries(['todos']).then(() => {
-        navigate('/todos');
-      });
-    },
+    onSuccess: onAddTodoSuccess,
     onError: () => {
       throw new Error();
     }
@@ -59,51 +49,62 @@ export const EditTodoComponent = () => {
 
   const formik = useFormik({
     initialValues,
+    validationSchema: formSchema,
     onSubmit: (values) => handleSubmit(values)
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    formik.handleChange(e);
-  };
-
   return (
     <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
-      {({ isSubmitting }) => (
-        <EditTodoForm onSubmit={formik.handleSubmit}>
-          <FormItem>
-            <label htmlFor="title">title</label>
-            <Field
-              name="title"
-              type="title"
-              value={formik.values.title}
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <ErrorMessage component="span" name="title" />
-          </FormItem>
+      <EditTodoForm onSubmit={formik.handleSubmit}>
+        <Box m={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth error={formik.touched.title && Boolean(formik.errors.title)}>
+                <InputLabel htmlFor="title">title</InputLabel>
+                <Field
+                  name="title"
+                  value={formik.values.title}
+                  type="title"
+                  as={Input}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
 
-          <FormItem>
-            <label htmlFor="description">description</label>
-            <Field
-              name="description"
-              value={formik.values.description}
-              type="description"
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <ErrorMessage component="span" name="description" />
-          </FormItem>
+                {formik.errors.title && formik.touched.title && (
+                  <div style={{ color: 'red' }}>{formik.errors.title}</div>
+                )}
+              </FormControl>
+            </Grid>
 
-          <ButtonsContainer>
-            <Link to={APP_KEYS.ROUTER_KEYS.STARTPAGE}>
-              <Button text="Back" />
-            </Link>
-            <ButtonComponent type="submit" disabled={isSubmitting}>
-              Edit
-            </ButtonComponent>
-          </ButtonsContainer>
-        </EditTodoForm>
-      )}
+            <Grid item xs={12}>
+              <FormControl
+                fullWidth
+                error={formik.touched.description && Boolean(formik.errors.description)}
+              >
+                <InputLabel htmlFor="description">description</InputLabel>
+                <Field
+                  name="description"
+                  value={formik.values.description}
+                  type="description"
+                  as={Input}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.errors.description && formik.touched.description && (
+                  <div style={{ color: 'red' }}>{formik.errors.description}</div>
+                )}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} justifyContent="space-between" display="flex">
+              <Link to={APP_KEYS.ROUTER_KEYS.CONTENT}>
+                <ButtonComponent>Back</ButtonComponent>
+              </Link>
+              <ButtonComponent type="submit">Edit</ButtonComponent>
+            </Grid>
+          </Grid>
+        </Box>
+      </EditTodoForm>
     </Formik>
   );
 };

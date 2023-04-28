@@ -11,7 +11,8 @@ export const QUERY_KEYS = {
   EXAMPLE: 'EXAMPLE',
   TOKEN: 'TOKEN',
   STATISTIC: 'statistic',
-  TRENDING: 'trending'
+  TRENDING: 'trending',
+  TODOS: ['todos']
 };
 
 // Backend Routes
@@ -29,9 +30,10 @@ export const ROUTER_KEYS = {
   TODOVIEW: '/todo/:id',
   HOME: '/home',
   AUTHORIZED: '/authorized',
-  STARTPAGE: '/todos',
+  CONTENT: '/todos',
   LOGIN: '/login',
   SIGNIN: '/signin',
   ADDTODO: '/addTodo',
-  EDITTODO: '/editTodo/:id'
+  EDITTODO: '/editTodo/:id',
+  EDIT: 'editTodo'
 };

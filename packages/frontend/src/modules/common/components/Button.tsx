@@ -1,24 +1,15 @@
-import React from 'react';
 import styled from 'styled-components';
+import { COLORS, SPACES } from '../../theme';
 
-const ButtonComponent = styled.button`
+export const ButtonComponent = styled.button`
   height: 40px;
-  min-width: 50px;
-  border: 2px solid black;
+  border: ${SPACES.xxs} solid ${COLORS.black};
   color: black;
-  padding: 6px 10px;
+  padding: ${SPACES.xs};
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   &:hover {
-    background-color: white;
-    color: black;
+    background-color: ${COLORS.white};
+    color: ${COLORS.black};
   }
 `;
-
-interface IButton {
-  text: string;
-}
-
-const Button = ({ text }: IButton) => <ButtonComponent>{text}</ButtonComponent>;
-
-export default Button;

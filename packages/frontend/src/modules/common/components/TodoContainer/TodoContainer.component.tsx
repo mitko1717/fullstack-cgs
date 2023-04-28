@@ -7,16 +7,16 @@ import { SliderContainer, TodoContainer, ButtonBox } from './TodoContainer.style
 import { ITodo } from '../../../../interfaces/interface';
 import { TodoElementContainer } from '../TodoElement';
 import { TodoSlider } from './TodoSlider';
-import HttpService from '../../../../http.service';
 import { APP_KEYS } from '../../consts';
-import Button from '../Button';
+import { ButtonComponent } from '../Button';
+import { http } from '../../../../http.service';
+import { QUERY_KEYS } from '../../consts/app-keys.const';
 
 export const TodoContainerContainer = () => {
-  const http = new HttpService('http://localhost:4200', 'api');
   const fetchTodos = async () => http.getAll('todos');
   const { data, isLoading, isError } = useQuery<ITodo[]>({
     queryFn: fetchTodos,
-    queryKey: ['todos']
+    queryKey: QUERY_KEYS.TODOS
   });
 
   if (isLoading) return <CircularProgress />;
@@ -26,7 +26,7 @@ export const TodoContainerContainer = () => {
     <>
       <ButtonBox>
         <Link to={APP_KEYS.ROUTER_KEYS.ADDTODO}>
-          <Button text="add new todo" />
+          <ButtonComponent>add new todo</ButtonComponent>
         </Link>
       </ButtonBox>
 

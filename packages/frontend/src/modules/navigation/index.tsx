@@ -13,7 +13,7 @@ export const MainRouter = () => (
   <Router>
     <Routes>
       <Route element={<StartPageComponent />} path={APP_KEYS.ROUTER_KEYS.ROOT} />
-      <Route element={<HomePageContainer />} path={APP_KEYS.ROUTER_KEYS.STARTPAGE} />
+      <Route element={<HomePageContainer />} path={APP_KEYS.ROUTER_KEYS.CONTENT} />
       <Route element={<TodoViewComponent />} path={APP_KEYS.ROUTER_KEYS.TODOVIEW} />
       <Route element={<SigninComponent />} path={APP_KEYS.ROUTER_KEYS.SIGNIN} />
       <Route element={<LoginComponent />} path={APP_KEYS.ROUTER_KEYS.LOGIN} />

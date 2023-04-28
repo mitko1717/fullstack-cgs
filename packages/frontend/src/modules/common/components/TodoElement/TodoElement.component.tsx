@@ -1,31 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { ITodo } from '../../../../interfaces/interface';
 import {
   TodoElement,
   TodoTitle,
   TodoDescription,
   TodoButtons,
-  ButtonComponent,
   ToggleButton
 } from './TodoElement.styled';
-import Button from '../Button';
-import HttpService from '../../../../http.service';
+import { ButtonComponent } from '../Button';
 import { Check, Cross } from './icons';
+import { http } from '../../../../http.service';
+import { useOnDeleteSuccess, useOnCompleteSuccess } from '../../../../helper/onSuccess';
 
 interface Item {
   item: ITodo;
 }
 
-const http = new HttpService('http://localhost:4200', 'api');
-
 export const TodoElementContainer = ({ item }: Item) => {
-  const queryClient = useQueryClient();
+  const onDeleteSuccess = useOnDeleteSuccess();
+  const onCompleteSuccess = useOnCompleteSuccess();
+
   const deleteTodo = useMutation((id: number) => http.delete('todos', id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
-    },
+    onSuccess: onDeleteSuccess,
     onError: () => {
       throw new Error();
     }
@@ -34,10 +32,7 @@ export const TodoElementContainer = ({ item }: Item) => {
   const completeTodo = useMutation(
     () => (item.completed ? http.uncomplete('todos', item.id) : http.complete('todos', item.id)),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['todos']);
-        queryClient.invalidateQueries(['todo']);
-      },
+      onSuccess: onCompleteSuccess,
       onError: () => {
         throw new Error();
       }
@@ -50,7 +45,7 @@ export const TodoElementContainer = ({ item }: Item) => {
       <TodoDescription>{item.description}</TodoDescription>
       <TodoButtons>
         <Link to={`/todo/${item.id}`}>
-          <Button text="View" />
+          <ButtonComponent>View</ButtonComponent>
         </Link>
         <ButtonComponent onClick={() => deleteTodo.mutate(item.id)}>Delete</ButtonComponent>
         <ToggleButton toggled={item.completed} onClick={() => completeTodo.mutate()}>

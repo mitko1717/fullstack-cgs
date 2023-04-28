@@ -12,17 +12,14 @@ import {
   ButtonDiv,
   ButtonsContainer
 } from './TodoView.styled';
-import Button from '../Button';
+import { ButtonComponent } from '../Button';
 import ToggleButton from '../ToggleButton';
 import { APP_KEYS } from '../../consts';
-import HttpService from '../../../../http.service';
-
-const http = new HttpService('http://localhost:4200', 'api');
+import { http } from '../../../../http.service';
 
 export const TodoViewComponent = () => {
   const { id } = useParams(); // get id from router
   const fetchTodo = async () => http.getOne('todos', id);
-
   const { data, isLoading, isError } = useQuery<ITodo>(['todo', id], fetchTodo);
 
   if (isLoading) return <CircularProgress />;
@@ -30,7 +27,6 @@ export const TodoViewComponent = () => {
 
   return data ? (
     <TodoView>
-      {/* {data ? ( */}
       <>
         <Title>{data.title}</Title>
         <span>Description:</span>
@@ -47,11 +43,11 @@ export const TodoViewComponent = () => {
         </Buttons>
       </>
       <ButtonsContainer>
-        <Link to={`/editTodo/${id}`}>
-          <Button text="Edit todo" />
+        <Link to={`/${APP_KEYS.ROUTER_KEYS.EDIT}/${id}`}>
+          <ButtonComponent>edit todo</ButtonComponent>
         </Link>
-        <Link to={APP_KEYS.ROUTER_KEYS.STARTPAGE}>
-          <Button text="Back" />
+        <Link to={APP_KEYS.ROUTER_KEYS.CONTENT}>
+          <ButtonComponent>back</ButtonComponent>
         </Link>
       </ButtonsContainer>
     </TodoView>

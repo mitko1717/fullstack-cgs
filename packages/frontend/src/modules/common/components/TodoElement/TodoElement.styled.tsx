@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SPACES, DEVICE } from '../../../theme';
+import { SPACES, DEVICE, COLORS } from '../../../theme';
 import { SIZES } from '../../../theme/fonts.const';
 
 export const TodoElement = styled('div')`
@@ -62,19 +62,6 @@ export const TodoButtons = styled.div`
   }
 `;
 
-export const ButtonComponent = styled.button`
-  height: 40px;
-  border: 2px solid black;
-  color: black;
-  padding: 6px 10px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-  &:hover {
-    background-color: white;
-    color: black;
-  }
-`;
-
 interface ButtonProps {
   toggled?: boolean;
 }
@@ -82,15 +69,15 @@ interface ButtonProps {
 export const ToggleButton = styled.button<ButtonProps>`
   height: 40px;
   min-width: 50px;
-  background-color: ${(props) => (props.toggled ? 'green' : 'white')};
-  color: ${(props) => (props.toggled ? 'white' : 'green')};
+  background-color: ${(props) => (props.toggled ? `${COLORS.green}` : `${COLORS.white}`)};
+  color: ${(props) => (props.toggled ? `${COLORS.white}` : `${COLORS.green}`)};
   border: 1px solid green;
   padding: ${SPACES.xxs};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   &:hover {
-    background-color: ${(props) => (props.toggled ? 'white' : 'green')};
-    color: ${(props) => (props.toggled ? 'green' : 'white')};
-    border-color: white;
+    background-color: ${(props) => (props.toggled ? `${COLORS.white}` : `${COLORS.green}`)};
+    color: ${(props) => (props.toggled ? `${COLORS.green}` : `${COLORS.white}`)};
+    border-color: ${COLORS.white};
   }
 `;
