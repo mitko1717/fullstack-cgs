@@ -30,4 +30,16 @@ todosRouter.delete(
   tryCatch(todoController.deleteTodo.bind(todoController))
 );
 
+todosRouter.put(
+  '/:id/complete',
+  isEntityExist(Todo),
+  tryCatch(todoController.completeTodo.bind(todoController))
+);
+
+todosRouter.put(
+  '/:id/uncomplete',
+  isEntityExist(Todo),
+  tryCatch(todoController.uncompleteTodo.bind(todoController))
+);
+
 export default todosRouter;

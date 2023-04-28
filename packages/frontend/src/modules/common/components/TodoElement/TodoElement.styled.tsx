@@ -48,7 +48,6 @@ export const TodoButtons = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${SPACES.xxs};
-  /* height: 50px; */
   margin-top: auto;
   width: 100%;
   justify-content: space-around;
@@ -73,5 +72,25 @@ export const ButtonComponent = styled.button`
   &:hover {
     background-color: white;
     color: black;
+  }
+`;
+
+interface ButtonProps {
+  toggled?: boolean;
+}
+
+export const ToggleButton = styled.button<ButtonProps>`
+  height: 40px;
+  min-width: 50px;
+  background-color: ${(props) => (props.toggled ? 'green' : 'white')};
+  color: ${(props) => (props.toggled ? 'white' : 'green')};
+  border: 1px solid green;
+  padding: ${SPACES.xxs};
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: ${(props) => (props.toggled ? 'white' : 'green')};
+    color: ${(props) => (props.toggled ? 'green' : 'white')};
+    border-color: white;
   }
 `;

@@ -37,6 +37,19 @@ class HttpService {
     const response = await this.fetchingService.delete(endpoint);
       return response.data;
   }
+
+  async complete(url, id) {
+    const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}/complete`;
+    console.log("endpoint", endpoint);
+    const response = await this.fetchingService.put(endpoint);
+    return response.data;
+  }
+
+  async uncomplete(url, id) {
+    const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}/uncomplete`;
+    const response = await this.fetchingService.put(endpoint);
+    return response.data;
+  }
 }
 
 export default HttpService;

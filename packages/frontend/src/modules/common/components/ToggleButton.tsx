@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface IToggleButton {
+  toggled: boolean;
+}
+
 interface ButtonProps {
   toggled?: boolean;
 }
@@ -21,12 +25,8 @@ const StyledButton = styled.button<ButtonProps>`
   }
 `;
 
-interface IToggleButton {
-  toggled: boolean;
-}
-
 const ToggleButton = ({ toggled }: IToggleButton) => (
-  <StyledButton toggled={toggled}>{toggled ? 'ON' : 'OFF'}</StyledButton>
+  <StyledButton toggled={toggled}>{toggled ? 'completed' : 'uncompleted'}</StyledButton>
 );
 
 export default ToggleButton;

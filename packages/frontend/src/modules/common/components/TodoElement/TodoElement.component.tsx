@@ -7,11 +7,12 @@ import {
   TodoTitle,
   TodoDescription,
   TodoButtons,
-  ButtonComponent
+  ButtonComponent,
+  ToggleButton
 } from './TodoElement.styled';
 import Button from '../Button';
-import ToggleButton from '../ToggleButton';
 import HttpService from '../../../../http.service';
+import { Check, Cross } from './icons';
 
 interface Item {
   item: ITodo;
@@ -30,6 +31,19 @@ export const TodoElementContainer = ({ item }: Item) => {
     }
   });
 
+  const completeTodo = useMutation(
+    () => (item.completed ? http.uncomplete('todos', item.id) : http.complete('todos', item.id)),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['todos']);
+        queryClient.invalidateQueries(['todo']);
+      },
+      onError: () => {
+        throw new Error();
+      }
+    }
+  );
+
   return (
     <TodoElement>
       <TodoTitle>{item.title}</TodoTitle>
@@ -39,7 +53,9 @@ export const TodoElementContainer = ({ item }: Item) => {
           <Button text="View" />
         </Link>
         <ButtonComponent onClick={() => deleteTodo.mutate(item.id)}>Delete</ButtonComponent>
-        <ToggleButton toggled={item.completed} />
+        <ToggleButton toggled={item.completed} onClick={() => completeTodo.mutate()}>
+          {item.completed ? <Check /> : <Cross />}
+        </ToggleButton>
       </TodoButtons>
     </TodoElement>
   );
