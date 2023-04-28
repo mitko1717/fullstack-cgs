@@ -2,14 +2,14 @@ import React from 'react';
 import { Formik, Field, ErrorMessage, useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useQueryClient, useMutation } from 'react-query';
 import { ButtonsContainer, FormItem, EditTodoForm, ButtonComponent } from './EditTodo.styled';
 import Button from '../Button';
 import { APP_KEYS } from '../../consts';
 import HttpService from '../../../../http.service';
 import { EditTodo } from '../../types/AddTodo.types';
 import { ITodo } from '../../../../interfaces/interface';
-import { queryClient } from '../../../app/queryClient';
+// import { queryClient } from '../../../app/queryClient';
 
 type IInitialValues = {
   title: string;
@@ -19,6 +19,8 @@ type IInitialValues = {
 const http = new HttpService('http://localhost:4200', 'api');
 
 export const EditTodoComponent = () => {
+  const queryClient = useQueryClient();
+  //
   const navigate = useNavigate();
   const { id } = useParams(); // get id from router
   const cashedTodoData = queryClient.getQueryData<ITodo>(['todo', id]);

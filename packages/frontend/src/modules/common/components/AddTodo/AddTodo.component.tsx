@@ -2,13 +2,13 @@ import React from 'react';
 import { Formik, Field, ErrorMessage, useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { ButtonsContainer, FormItem, AddTodoForm, ButtonComponent } from './AddTodo.styled';
 import Button from '../Button';
 import { APP_KEYS } from '../../consts';
 import HttpService from '../../../../http.service';
 import { AddTodo } from '../../types/AddTodo.types';
-import { queryClient } from '../../../app/queryClient';
+// import { queryClient } from '../../../app/queryClient';
 
 type IInitialValues = {
   title: string;
@@ -18,6 +18,8 @@ type IInitialValues = {
 const http = new HttpService('http://localhost:4200', 'api');
 
 export const AddTodoComponent = () => {
+  const queryClient = useQueryClient();
+  //
   const navigate = useNavigate();
   const addTodo = useMutation((formData: AddTodo) => http.post('todos', formData), {
     onSuccess: () => {
