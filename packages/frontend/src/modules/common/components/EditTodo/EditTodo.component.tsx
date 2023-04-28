@@ -20,15 +20,16 @@ const http = new HttpService('http://localhost:4200', 'api');
 
 export const EditTodoComponent = () => {
   const queryClient = useQueryClient();
-  //
+
   const navigate = useNavigate();
   const { id } = useParams(); // get id from router
   const cashedTodoData = queryClient.getQueryData<ITodo>(['todo', id]);
 
   const editTodo = useMutation((formData: EditTodo) => http.put('todos', id, formData), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
-      navigate('/todos');
+      queryClient.refetchQueries(['todos']).then(() => {
+        navigate('/todos');
+      });
     },
     onError: () => {
       throw new Error();

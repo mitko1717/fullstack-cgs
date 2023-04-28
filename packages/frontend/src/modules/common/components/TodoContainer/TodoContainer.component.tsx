@@ -10,7 +10,6 @@ import { TodoSlider } from './TodoSlider';
 import HttpService from '../../../../http.service';
 import { APP_KEYS } from '../../consts';
 import Button from '../Button';
-// import { queryClient } from '../../../app/queryClient';
 
 export const TodoContainerContainer = () => {
   const http = new HttpService('http://localhost:4200', 'api');
@@ -19,10 +18,6 @@ export const TodoContainerContainer = () => {
     queryFn: fetchTodos,
     queryKey: ['todos']
   });
-
-  // useEffect(() => {
-  //   console.log(queryClient.getQueryData(['todos']));
-  // }, [data]);
 
   if (isLoading) return <CircularProgress />;
   if (isError) return <Alert severity="error">Error fetching data happened!</Alert>;

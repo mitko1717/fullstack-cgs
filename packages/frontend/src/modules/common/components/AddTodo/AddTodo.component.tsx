@@ -8,7 +8,6 @@ import Button from '../Button';
 import { APP_KEYS } from '../../consts';
 import HttpService from '../../../../http.service';
 import { AddTodo } from '../../types/AddTodo.types';
-// import { queryClient } from '../../../app/queryClient';
 
 type IInitialValues = {
   title: string;
@@ -19,12 +18,13 @@ const http = new HttpService('http://localhost:4200', 'api');
 
 export const AddTodoComponent = () => {
   const queryClient = useQueryClient();
-  //
+
   const navigate = useNavigate();
   const addTodo = useMutation((formData: AddTodo) => http.post('todos', formData), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
-      navigate('/todos');
+      queryClient.refetchQueries(['todos']).then(() => {
+        navigate('/todos');
+      });
     },
     onError: () => {
       throw new Error();

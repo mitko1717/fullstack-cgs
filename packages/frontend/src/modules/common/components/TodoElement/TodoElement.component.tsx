@@ -12,7 +12,6 @@ import {
 import Button from '../Button';
 import ToggleButton from '../ToggleButton';
 import HttpService from '../../../../http.service';
-// import { queryClient } from '../../../app/queryClient';
 
 interface Item {
   item: ITodo;
@@ -22,10 +21,9 @@ const http = new HttpService('http://localhost:4200', 'api');
 
 export const TodoElementContainer = ({ item }: Item) => {
   const queryClient = useQueryClient();
-  //
   const deleteTodo = useMutation((id: number) => http.delete('todos', id), {
     onSuccess: () => {
-      queryClient.invalidateQueries('todos');
+      queryClient.invalidateQueries(['todos']);
     },
     onError: () => {
       throw new Error();
