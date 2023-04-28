@@ -24,3 +24,16 @@ export const ButtonsContainer = styled('div')`
   display: flex;
   justify-content: space-between;
 `;
+
+export const ButtonComponent = styled.button`
+  height: 40px;
+  border: 2px solid black;
+  color: black;
+  padding: 6px 10px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+`;

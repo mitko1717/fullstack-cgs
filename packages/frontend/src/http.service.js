@@ -8,16 +8,13 @@ class HttpService {
   }
 
   async getAll(url) {
-    console.log('url getAll', url);
     const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}`;
-    console.log('endpoint', endpoint);
     const response = await this.fetchingService.get(endpoint);
       return response.data;
   }
 
   async getOne(url, id) {
     const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}`;
-    console.log('endpoint', endpoint);
     const response = await this.fetchingService.get(endpoint);
       return response.data;
   }
@@ -27,11 +24,12 @@ class HttpService {
     const response = await this.fetchingService.post(endpoint, data);
       return response.data;
   }
+  
 
   async put(url, id, data) {
     const endpoint = `${this.baseUrl}/${this.apiVersion}/${url}/${id}`;
     const response = await this.fetchingService.put(endpoint, data);
-      return response.data;
+    return response.data;
   }
 
   async delete(url, id) {

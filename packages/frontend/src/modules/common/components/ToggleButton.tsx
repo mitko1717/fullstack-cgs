@@ -7,6 +7,7 @@ interface ButtonProps {
 
 const StyledButton = styled.button<ButtonProps>`
   height: 40px;
+  min-width: 50px;
   background-color: ${(props) => (props.toggled ? 'green' : 'white')};
   color: ${(props) => (props.toggled ? 'white' : 'green')};
   border: 1px solid green;

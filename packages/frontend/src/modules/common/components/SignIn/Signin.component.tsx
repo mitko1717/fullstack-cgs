@@ -8,7 +8,7 @@ import { APP_KEYS } from '../../consts';
 
 export const SigninComponent = () => {
   const formSchema = yup.object().shape({
-    name: yup.string().max(20, '20 charecters or less').required('Name is required'),
+    name: yup.string().max(20, '20 charecters or less').required('required'),
     password: yup.string().required('Required'),
     confirmPassword: yup
       .string()
@@ -33,18 +33,24 @@ export const SigninComponent = () => {
           <FormItem>
             <label htmlFor="name">name</label>
             <Field id="name" name="name" type="name" />
-            <ErrorMessage name="name" />
+            <ErrorMessage name="name">
+              {(msg) => <span style={{ color: 'red' }}>{msg}</span>}
+            </ErrorMessage>
           </FormItem>
 
           <FormItem>
             <label htmlFor="password">Password</label>
             <Field id="password" name="password" type="password" />
-            <ErrorMessage name="password" />
+            <ErrorMessage name="password">
+              {(msg) => <span style={{ color: 'red' }}>{msg}</span>}
+            </ErrorMessage>
           </FormItem>
           <FormItem>
             <label htmlFor="confirmPassword">Confirm Password</label>
             <Field id="confirmPassword" name="confirmPassword" type="password" />
-            <ErrorMessage name="confirmPassword" />
+            <ErrorMessage name="confirmPassword">
+              {(msg) => <span style={{ color: 'red' }}>{msg}</span>}
+            </ErrorMessage>
           </FormItem>
 
           <ButtonsContainer>

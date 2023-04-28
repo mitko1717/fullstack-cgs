@@ -7,7 +7,7 @@ import { ButtonsContainer, FormItem, LoginForm } from './Login.styled';
 import { APP_KEYS } from '../../consts';
 
 const formSchema = yup.object().shape({
-  name: yup.string().max(20, '20 charecters or less').required('Name is required'),
+  name: yup.string().max(20, '20 charecters or less').required('required'),
   password: yup.string().required('Required')
 });
 const initialValues = {
@@ -28,13 +28,17 @@ export const LoginComponent = () => (
         <FormItem>
           <label htmlFor="name">name</label>
           <Field name="name" type="name" />
-          <ErrorMessage name="name" />
+          <ErrorMessage name="name">
+            {(msg) => <span style={{ color: 'red' }}>{msg}</span>}
+          </ErrorMessage>
         </FormItem>
 
         <FormItem>
           <label htmlFor="password">Password</label>
           <Field name="password" type="password" />
-          <ErrorMessage name="password" />
+          <ErrorMessage name="password">
+            {(msg) => <span style={{ color: 'red' }}>{msg}</span>}
+          </ErrorMessage>
         </FormItem>
 
         <ButtonsContainer>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 import { MainRouter } from '../navigation';
@@ -7,18 +7,7 @@ import { MainRouter } from '../navigation';
 import * as theme from '../theme';
 import * as Styled from './app.styled';
 import '../../style.css';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      keepPreviousData: true,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-      cacheTime: Infinity
-    }
-  }
-});
+import { queryClient } from './queryClient';
 
 const AppContainer = () => (
   <ThemeProvider theme={theme}>

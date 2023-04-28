@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Field, ErrorMessage } from 'formik';
+import { Formik, Field, ErrorMessage, useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
@@ -8,58 +8,83 @@ import Button from '../Button';
 import { APP_KEYS } from '../../consts';
 import HttpService from '../../../../http.service';
 import { AddTodo } from '../../types/AddTodo.types';
+import { queryClient } from '../../../app/queryClient';
+
+type IInitialValues = {
+  title: string;
+  description: string;
+};
 
 const http = new HttpService('http://localhost:4200', 'api');
 
 export const AddTodoComponent = () => {
   const navigate = useNavigate();
-  const addTodo = useMutation((formData: AddTodo) => http.post('/todos/', formData), {
+  const addTodo = useMutation((formData: AddTodo) => http.post('todos', formData), {
     onSuccess: () => {
+      queryClient.invalidateQueries(['todos']);
       navigate('/todos');
     },
-    onError: (error) => {
-      navigate('/todos');
-      console.error(error);
+    onError: () => {
+      throw new Error();
     }
   });
 
   const formSchema = yup.object().shape({
-    post: yup.string().max(20, '20 charecters or less').required('Name is required'),
+    title: yup.string().max(20, '20 charecters or less').required('required'),
     description: yup.string().required('Required')
   });
 
-  const initialValues = {
-    post: '',
+  const initialValues: IInitialValues = {
+    title: '',
     description: ''
   };
 
+  const handleSubmit = (values: IInitialValues) => {
+    const formData = {
+      title: values.title,
+      description: values.description,
+      completed: false,
+      private: false,
+      userId: 1
+    };
+    addTodo.mutate(formData);
+  };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit: (values) => handleSubmit(values)
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.handleChange(e);
+  };
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={formSchema}
-      onSubmit={(values) => {
-        const formData = {
-          title: values.post,
-          description: values.description,
-          completed: false,
-          private: false,
-          userId: 1
-        };
-        addTodo.mutate(formData);
-      }}
-    >
+    <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
       {({ isSubmitting }) => (
-        <AddTodoForm>
+        <AddTodoForm onSubmit={formik.handleSubmit}>
           <FormItem>
-            <label htmlFor="post">post</label>
-            <Field name="post" type="post" />
-            <ErrorMessage name="post" />
+            <label htmlFor="title">title</label>
+            <Field
+              name="title"
+              type="title"
+              value={formik.values.title}
+              onChange={handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <ErrorMessage component="span" name="title" />
           </FormItem>
 
           <FormItem>
             <label htmlFor="description">description</label>
-            <Field name="description" type="description" />
-            <ErrorMessage name="description" />
+            <Field
+              name="description"
+              value={formik.values.description}
+              type="description"
+              onChange={handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <ErrorMessage component="span" name="description" />
           </FormItem>
 
           <ButtonsContainer>
