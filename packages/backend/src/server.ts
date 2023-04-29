@@ -1,8 +1,10 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import 'dotenv/config';
+import passport from 'passport';
 import AppRouter from './routes';
 import connectDB from './config/database';
+import { jwtStrategy } from './middlewares/auth.middleware';
 
 const app = express();
 const router = new AppRouter(app);
@@ -13,6 +15,12 @@ connectDB();
 app.set('port', process.env.PORT || 4200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// calling passport.initialize() and jwtStrategy before calling router.init()
+// to ensure that middleware is initialized before handling requests
+
+app.use(passport.initialize());
+passport.use(jwtStrategy);
 
 router.init();
 

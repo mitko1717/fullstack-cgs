@@ -39,6 +39,16 @@ export class TodoController {
     const todos = await this.todoService.uncomplete(Number(req.params.id));
     return todos;
   }
+
+  async setTodoPrivate(req: Request<{ id: string }>) {
+    const todos = await this.todoService.setPrivate(Number(req.params.id));
+    return todos;
+  }
+
+  async setTodoNotPrivate(req: Request<{ id: string }>) {
+    const todos = await this.todoService.unsetPrivate(Number(req.params.id));
+    return todos;
+  }
 }
 
 const todoController = new TodoController(new TodoService());

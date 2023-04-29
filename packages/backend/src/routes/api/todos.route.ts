@@ -30,4 +30,16 @@ todosRouter.delete(
   tryCatch(todoController.deleteTodo.bind(todoController))
 );
 
+todosRouter.put(
+  '/:id/setPrivate',
+  isEntityExist(Todo),
+  tryCatch(todoController.setTodoPrivate.bind(todoController))
+);
+
+todosRouter.put(
+  '/:id/unsetPrivate',
+  isEntityExist(Todo),
+  tryCatch(todoController.setTodoNotPrivate.bind(todoController))
+);
+
 export default todosRouter;

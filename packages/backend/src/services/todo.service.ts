@@ -7,7 +7,7 @@ export default class TodoService {
   }
 
   async findAll() {
-    return Todo.find();
+    return Todo.find({ order: { id: 'DESC' } });
   }
 
   async addTodo(todo: Todo) {
@@ -34,5 +34,13 @@ export default class TodoService {
 
   async uncomplete(id: number) {
     return Todo.update(id, { completed: false });
+  }
+
+  async setPrivate(id: number) {
+    return Todo.update(id, { private: true });
+  }
+
+  async unsetPrivate(id: number) {
+    return Todo.update(id, { private: false });
   }
 }
