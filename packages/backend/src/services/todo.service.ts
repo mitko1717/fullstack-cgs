@@ -6,8 +6,19 @@ export default class TodoService {
     return todo;
   }
 
-  async findAll() {
-    return Todo.find({ order: { id: 'DESC' } });
+  // async findAll() {
+  //   return Todo.find({ order: { id: 'DESC' } });
+  // }
+
+  // return all todos that have 'private' set to false or 'private' set to true and id matching userId
+  async findAll(userId: number) {
+    const todos = await Todo.find({
+      order: { id: 'DESC' },
+      relations: ['user']
+    });
+
+    // filter out private todos that do not belong to active user
+    return todos.filter((todo) => !todo.private || !todo.user || +todo.user.id === userId);
   }
 
   async addTodo(todo: Todo) {

@@ -1,6 +1,11 @@
 import { Request } from 'express';
+import { User } from '../entities/user.entity';
 import { TodoDTO } from '../dto/todo.dto';
 import TodoService from '../services/todo.service';
+
+interface AuthenticatedRequest extends Request {
+  user?: User;
+}
 
 export class TodoController {
   constructor(private todoService: TodoService) {}
@@ -10,8 +15,9 @@ export class TodoController {
     return todo;
   }
 
-  async getAllTodo() {
-    const todos = await this.todoService.findAll();
+  async getAllTodo(req: AuthenticatedRequest) {
+    const userId = Number(req.user) || 1;
+    const todos = await this.todoService.findAll(userId);
     return todos;
   }
 

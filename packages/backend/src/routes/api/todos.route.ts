@@ -7,7 +7,7 @@ import { isEntityExist } from '../../middlewares/isExist.middleware';
 
 const todosRouter: Router = Router();
 
-todosRouter.get('', tryCatch(todoController.getAllTodo.bind(todoController)));
+todosRouter.get('/', tryCatch(todoController.getAllTodo.bind(todoController)));
 todosRouter.get(
   '/:id',
   isEntityExist(Todo),

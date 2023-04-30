@@ -2,8 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '../entities/User.entity';
 
-const jwtSecret = 'your_jwt_secret';
-
 export default class UserService {
   async signup(email: string, password: string): Promise<User> {
     // hash password
@@ -18,17 +16,14 @@ export default class UserService {
     return user;
   }
 
-  async login(email: string, password: string): Promise<string> {
+  async login(email: string): Promise<string> {
     // find user by email
     const user = await User.findOne({ where: { email } });
 
-    // if user is not found or password is incorrect, return an error
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new Error('Invalid email or password');
-    }
-
     // generate a JWT token
-    const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user?.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRATION
+    });
 
     return token;
   }
@@ -36,4 +31,19 @@ export default class UserService {
   async logout() {
     return 'logout';
   }
+
+  async getUserByEmail(email: string) {
+    return User.findOne({ where: { email } });
+  }
+
+  async updatePassword(email: string, newPassword: string): Promise<void> {
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    await User.update({ email }, { password: hashedNewPassword });
+    // first arg - filter to select user to update
+    // second arg - object containing new values to update
+  }
 }
+
+// In a JWT-based authentication system, when a user logs in, a JWT token is generated and sent back to client.
+// client then includes this token in headers of all subsequent requests to server.
+// server uses token to authenticate user and authorize access to protected resources.
