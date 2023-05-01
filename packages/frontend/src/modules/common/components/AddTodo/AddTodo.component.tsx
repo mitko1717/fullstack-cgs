@@ -7,14 +7,14 @@ import { Box, FormControl, Grid, Input, InputLabel } from '@mui/material';
 import { AddTodoForm } from './AddTodo.styled';
 import { ButtonComponent } from '../Button';
 import { APP_KEYS } from '../../consts';
-import { AddTodo } from '../../types/AddTodo.types';
+import { ITodoCreate } from '../../types/AddTodo.types';
 import { IInitialValues } from '../../types/AddTodoValues';
-import { http } from '../../../../http.service';
+import todoService from '../../../../service/todo.service';
 import { useOnAddTodoSuccess } from '../../../../helper/onSuccess';
 
 export const AddTodoComponent = () => {
   const onAddTodoSuccess = useOnAddTodoSuccess();
-  const addTodo = useMutation((formData: AddTodo) => http.post('todos', formData), {
+  const addTodo = useMutation((formData: ITodoCreate) => todoService.createTodo(formData), {
     onSuccess: onAddTodoSuccess,
     onError: () => {
       throw new Error();
@@ -32,7 +32,7 @@ export const AddTodoComponent = () => {
   };
 
   const handleSubmit = (values: IInitialValues) => {
-    const formData = {
+    const formData: ITodoCreate = {
       title: values.title,
       description: values.description,
       completed: false,

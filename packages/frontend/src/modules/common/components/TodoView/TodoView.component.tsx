@@ -15,11 +15,11 @@ import {
 import { ButtonComponent } from '../Button';
 import ToggleButton from '../ToggleButton';
 import { APP_KEYS } from '../../consts';
-import { http } from '../../../../http.service';
+import todoService from '../../../../service/todo.service';
 
 export const TodoViewComponent = () => {
   const { id } = useParams(); // get id from router
-  const fetchTodo = async () => http.getOne('todos', id);
+  const fetchTodo = async () => todoService.getOneTodo(id || 1);
   const { data, isLoading, isError } = useQuery<ITodo>(['todo', id], fetchTodo);
 
   if (isLoading) return <CircularProgress />;

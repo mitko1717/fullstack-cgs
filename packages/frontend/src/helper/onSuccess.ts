@@ -29,7 +29,7 @@ export function useOnCompleteSuccess() {
 
   async function onCompleteSuccess() {
     await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
-    await queryClient.invalidateQueries(['todo']);
+    await queryClient.invalidateQueries(QUERY_KEYS.TODO);
   }
 
   return onCompleteSuccess;

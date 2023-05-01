@@ -12,7 +12,8 @@ export const QUERY_KEYS = {
   TOKEN: 'TOKEN',
   STATISTIC: 'statistic',
   TRENDING: 'trending',
-  TODOS: ['todos']
+  TODOS: ['todos'],
+  TODO: ['todo']
 };
 
 // Backend Routes
@@ -37,3 +38,5 @@ export const ROUTER_KEYS = {
   EDITTODO: '/editTodo/:id',
   EDIT: 'editTodo'
 };
+
+export const SERVER_URL = 'http://localhost:4200';

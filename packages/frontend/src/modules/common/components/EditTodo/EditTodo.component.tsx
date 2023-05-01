@@ -6,12 +6,12 @@ import { useQueryClient, useMutation } from 'react-query';
 import { Box, FormControl, Grid, Input, InputLabel } from '@mui/material';
 import { EditTodoForm } from './EditTodo.styled';
 import { ButtonComponent } from '../Button';
-import { APP_KEYS } from '../../consts';
-import { EditTodo } from '../../types/AddTodo.types';
+import { ITodoEdit } from '../../types/AddTodo.types';
 import { ITodo } from '../../../../interfaces/interface';
-import { http } from '../../../../http.service';
+import todoService from '../../../../service/todo.service';
 import { IInitialValues } from '../../types/AddTodoValues';
 import { useOnAddTodoSuccess } from '../../../../helper/onSuccess';
+import { APP_KEYS } from '../../consts';
 
 export const EditTodoComponent = () => {
   const onAddTodoSuccess = useOnAddTodoSuccess();
@@ -19,7 +19,7 @@ export const EditTodoComponent = () => {
   const { id } = useParams(); // get id from router
   const cashedTodoData = queryClient.getQueryData<ITodo>(['todo', id]);
 
-  const editTodo = useMutation((formData: EditTodo) => http.put('todos', id, formData), {
+  const editTodo = useMutation((formData: ITodoEdit) => todoService.editTodo(formData), {
     onSuccess: onAddTodoSuccess,
     onError: () => {
       throw new Error();
@@ -37,12 +37,12 @@ export const EditTodoComponent = () => {
   };
 
   const handleSubmit = (values: IInitialValues) => {
-    const formData = {
+    const formData: ITodoEdit = {
       title: values.title,
       description: values.description,
       completed: cashedTodoData?.completed || false,
       private: cashedTodoData?.private || false,
-      userId: 1
+      id: cashedTodoData?.id || id || 1 || '1'
     };
     editTodo.mutate(formData);
   };

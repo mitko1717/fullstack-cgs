@@ -9,11 +9,11 @@ import { TodoElementContainer } from '../TodoElement';
 import { TodoSlider } from './TodoSlider';
 import { APP_KEYS } from '../../consts';
 import { ButtonComponent } from '../Button';
-import { http } from '../../../../http.service';
+import todoService from '../../../../service/todo.service';
 import { QUERY_KEYS } from '../../consts/app-keys.const';
 
 export const TodoContainerContainer = () => {
-  const fetchTodos = async () => http.getAll('todos');
+  const fetchTodos = async () => todoService.getAllTodos();
   const { data, isLoading, isError } = useQuery<ITodo[]>({
     queryFn: fetchTodos,
     queryKey: QUERY_KEYS.TODOS

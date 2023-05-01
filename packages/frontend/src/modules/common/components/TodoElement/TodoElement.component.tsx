@@ -11,7 +11,7 @@ import {
 } from './TodoElement.styled';
 import { ButtonComponent } from '../Button';
 import { Check, Cross } from './icons';
-import { http } from '../../../../http.service';
+import todoService from '../../../../service/todo.service';
 import { useOnDeleteSuccess, useOnCompleteSuccess } from '../../../../helper/onSuccess';
 
 interface Item {
@@ -22,15 +22,21 @@ export const TodoElementContainer = ({ item }: Item) => {
   const onDeleteSuccess = useOnDeleteSuccess();
   const onCompleteSuccess = useOnCompleteSuccess();
 
-  const deleteTodo = useMutation((id: number) => http.delete('todos', id), {
+  const deleteTodo = useMutation((id: number) => todoService.deleteTodo(id), {
     onSuccess: onDeleteSuccess,
     onError: () => {
       throw new Error();
     }
   });
 
+  // added if cause lind dont skip ternary
   const completeTodo = useMutation(
-    () => (item.completed ? http.uncomplete('todos', item.id) : http.complete('todos', item.id)),
+    () => {
+      if (item.completed) {
+        return todoService.uncompleteTodo(item.id);
+      }
+      return todoService.completeTodo(item.id);
+    },
     {
       onSuccess: onCompleteSuccess,
       onError: () => {
