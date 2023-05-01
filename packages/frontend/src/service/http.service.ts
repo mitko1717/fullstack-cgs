@@ -1,10 +1,8 @@
-// http.service.js
 import axios from 'axios'; // It could be any fetching services, such as default fetch, call api, xhr, etc.
-import { SERVER_URL } from '../modules/common/consts/app-keys.const';
 
 export default class HttpService {
   constructor(
-    public baseUrl = SERVER_URL,
+    public baseUrl = `http://localhost:${process.env.PORT || 4200}`,
     public fetchingService = axios,
     public apiVersion = 'api'
   ) {

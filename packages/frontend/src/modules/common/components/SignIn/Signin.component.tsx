@@ -1,11 +1,12 @@
 import React from 'react';
-import { Formik, Field, useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
-import { Box, FormControl, Grid, Input, InputLabel } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { SigninForm } from './Signin.styled';
 import { APP_KEYS } from '../../consts';
 import { ButtonComponent } from '../Button';
+import GridComponent from '../GridContainer';
 
 export const SigninComponent = () => {
   const formSchema = yup.object().shape({
@@ -48,66 +49,9 @@ export const SigninComponent = () => {
       <SigninForm>
         <Box m={3}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>
-                <InputLabel htmlFor="email">email</InputLabel>
-                <Field
-                  name="email"
-                  value={formik.values.email}
-                  type="email"
-                  as={Input}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-
-                {formik.errors.email && formik.touched.email && (
-                  <div style={{ color: 'red' }}>{formik.errors.email}</div>
-                )}
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl
-                fullWidth
-                error={formik.touched.password && Boolean(formik.errors.password)}
-              >
-                <InputLabel htmlFor="password">password</InputLabel>
-                <Field
-                  name="password"
-                  value={formik.values.password}
-                  type="password"
-                  as={Input}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-
-                {formik.errors.password && formik.touched.password && (
-                  <div style={{ color: 'red' }}>{formik.errors.password}</div>
-                )}
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl
-                fullWidth
-                error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-              >
-                <InputLabel htmlFor="confirmPassword">confirmPassword</InputLabel>
-                <Field
-                  name="confirmPassword"
-                  value={formik.values.confirmPassword}
-                  type="confirmPassword"
-                  as={Input}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-
-                {formik.errors.confirmPassword && formik.touched.confirmPassword && (
-                  <div style={{ color: 'red' }}>{formik.errors.confirmPassword}</div>
-                )}
-              </FormControl>
-            </Grid>
-
+            {Object.keys(initialValues).map((key) => (
+              <GridComponent key={key} value={key} formik={formik} />
+            ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">
               <Link to={APP_KEYS.ROUTER_KEYS.ROOT}>
                 <ButtonComponent>Back</ButtonComponent>
