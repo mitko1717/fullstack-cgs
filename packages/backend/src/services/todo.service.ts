@@ -6,8 +6,14 @@ export default class TodoService {
     return todo;
   }
 
-  async findAll() {
-    return Todo.find({ order: { id: 'DESC' } });
+  // filter out private todos that do not belong to active user
+  async findAll(userId: number) {
+    const todos = await Todo.createQueryBuilder('todo')
+      .where('todo.private = false OR todo.userId = :userId', { userId })
+      .orderBy('todo.id', 'DESC')
+      .leftJoinAndSelect('todo.user', 'user')
+      .getMany();
+    return todos;
   }
 
   async addTodo(todo: Todo) {
@@ -34,5 +40,13 @@ export default class TodoService {
 
   async uncomplete(id: number) {
     return Todo.update(id, { completed: false });
+  }
+
+  async setPrivate(id: number) {
+    return Todo.update(id, { private: true });
+  }
+
+  async unsetPrivate(id: number) {
+    return Todo.update(id, { private: false });
   }
 }
