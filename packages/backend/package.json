@@ -19,6 +19,7 @@
     "migration:down": "yarn typeorm migration:revert"
   },
   "dependencies": {
+    "@types/cors": "^2.8.13",
     "axios": "^0.21.1",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
@@ -27,6 +28,7 @@
     "class-validator": "^0.14.0",
     "cli": "^1.0.1",
     "config": "^3.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",

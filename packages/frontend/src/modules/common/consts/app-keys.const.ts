@@ -11,7 +11,9 @@ export const QUERY_KEYS = {
   EXAMPLE: 'EXAMPLE',
   TOKEN: 'TOKEN',
   STATISTIC: 'statistic',
-  TRENDING: 'trending'
+  TRENDING: 'trending',
+  TODOS: ['todos'],
+  TODO: ['todo']
 };
 
 // Backend Routes
@@ -26,6 +28,15 @@ export const BACKEND_KEYS = {
 
 export const ROUTER_KEYS = {
   ROOT: '/',
-  HOME: 'home',
-  AUTHORIZED: 'authorized'
+  TODOVIEW: '/todo/:id',
+  HOME: '/home',
+  AUTHORIZED: '/authorized',
+  CONTENT: '/todos',
+  LOGIN: '/login',
+  SIGNIN: '/signin',
+  ADDTODO: '/addTodo',
+  EDITTODO: '/editTodo/:id',
+  EDIT: 'editTodo'
 };
+
+export const SERVER_URL = 'http://localhost:4200';
