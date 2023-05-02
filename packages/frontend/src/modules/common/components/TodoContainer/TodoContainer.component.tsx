@@ -11,6 +11,7 @@ import { APP_KEYS } from '../../consts';
 import { ButtonComponent } from '../Button';
 import todoService from '../../../../service/todo.service';
 import { QUERY_KEYS } from '../../consts/app-keys.const';
+import Layout from '../Layout';
 
 export const TodoContainerContainer = () => {
   const fetchTodos = async () => todoService.getAllTodos();
@@ -22,26 +23,28 @@ export const TodoContainerContainer = () => {
   if (isLoading) return <CircularProgress />;
   if (isError) return <Alert severity="error">Error fetching data happened!</Alert>;
 
-  return data ? (
-    <>
-      <ButtonBox>
-        <Link to={APP_KEYS.ROUTER_KEYS.ADDTODO}>
-          <ButtonComponent>add new todo</ButtonComponent>
-        </Link>
-      </ButtonBox>
-
-      <TodoContainer>
-        {data.map((item) => (
-          <TodoElementContainer key={item.id} item={item} />
-        ))}
-      </TodoContainer>
-
-      {/* tablet slider */}
-      <SliderContainer>
-        <TodoSlider items={data} />
-      </SliderContainer>
-    </>
-  ) : (
-    <span />
+  return (
+    <Layout>
+      {data ? (
+        <>
+          <ButtonBox>
+            <Link to={APP_KEYS.ROUTER_KEYS.ADDTODO}>
+              <ButtonComponent>add new todo</ButtonComponent>
+            </Link>
+          </ButtonBox>
+          <TodoContainer>
+            {data.map((item) => (
+              <TodoElementContainer key={item.id} item={item} />
+            ))}
+          </TodoContainer>
+          {/* tablet slider */}
+          <SliderContainer>
+            <TodoSlider items={data} />
+          </SliderContainer>
+        </>
+      ) : (
+        <span />
+      )}
+    </Layout>
   );
 };
