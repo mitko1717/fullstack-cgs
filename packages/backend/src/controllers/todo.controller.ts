@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { TodoDTO } from '../dto/todo.dto';
 import TodoService from '../services/todo.service';
+import { IAuthenticatedRequest } from '../types/AuthRequest';
 
 export class TodoController {
   constructor(private todoService: TodoService) {}
@@ -10,8 +11,9 @@ export class TodoController {
     return todo;
   }
 
-  async getAllTodo() {
-    const todos = await this.todoService.findAll();
+  async getAllTodo(req: IAuthenticatedRequest) {
+    const userId = Number(req.user) || 1;
+    const todos = await this.todoService.findAll(userId);
     return todos;
   }
 
@@ -37,6 +39,16 @@ export class TodoController {
 
   async uncompleteTodo(req: Request<{ id: string }>) {
     const todos = await this.todoService.uncomplete(Number(req.params.id));
+    return todos;
+  }
+
+  async setTodoPrivate(req: Request<{ id: string }>) {
+    const todos = await this.todoService.setPrivate(Number(req.params.id));
+    return todos;
+  }
+
+  async setTodoNotPrivate(req: Request<{ id: string }>) {
+    const todos = await this.todoService.unsetPrivate(Number(req.params.id));
     return todos;
   }
 }

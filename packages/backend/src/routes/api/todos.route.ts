@@ -7,7 +7,7 @@ import { isEntityExist } from '../../middlewares/isExist.middleware';
 
 const todosRouter: Router = Router();
 
-todosRouter.get('', tryCatch(todoController.getAllTodo.bind(todoController)));
+todosRouter.get('/', tryCatch(todoController.getAllTodo.bind(todoController)));
 todosRouter.get(
   '/:id',
   isEntityExist(Todo),
@@ -28,6 +28,18 @@ todosRouter.delete(
   '/:id',
   isEntityExist(Todo),
   tryCatch(todoController.deleteTodo.bind(todoController))
+);
+
+todosRouter.put(
+  '/:id/setPrivate',
+  isEntityExist(Todo),
+  tryCatch(todoController.setTodoPrivate.bind(todoController))
+);
+
+todosRouter.put(
+  '/:id/unsetPrivate',
+  isEntityExist(Todo),
+  tryCatch(todoController.setTodoNotPrivate.bind(todoController))
 );
 
 todosRouter.put(
