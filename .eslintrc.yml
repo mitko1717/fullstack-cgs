@@ -125,7 +125,19 @@ overrides:
   [
     {
       files: ['*.ts', '*.tsx'],
-      rules: { 'no-undef': 'off' },
-      parserOptions: { project: ['./tsconfig.json'] }
+      rules: {
+      'no-undef': 'off',
+      "jsx-a11y/label-has-associated-control": ["error", {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }],
+      "jsx-a11y/label-has-for": ["error", {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }]
+    },
+    parserOptions: { project: ['./tsconfig.json'] },
     }
   ]

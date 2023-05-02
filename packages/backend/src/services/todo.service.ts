@@ -7,7 +7,7 @@ export default class TodoService {
   }
 
   async findAll() {
-    return Todo.find();
+    return Todo.find({ order: { id: 'DESC' } });
   }
 
   async addTodo(todo: Todo) {
