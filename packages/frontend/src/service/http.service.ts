@@ -15,7 +15,7 @@ export default class HttpService {
     return `${this.baseUrl}/${this.apiVersion}/${url}`;
   }
 
-  private populateTokenToHeaderConfig() {
+  protected populateTokenToHeaderConfig() {
     return {
       Authorization: localStorage.getItem('token')
     };

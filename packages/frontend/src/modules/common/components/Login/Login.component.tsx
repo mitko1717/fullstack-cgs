@@ -18,7 +18,7 @@ export const LoginComponent = () => {
   const login = useMutation((formData: ILoginData) => userService.loginUser(formData), {
     onSuccess: (data, formData) => {
       onLoginSuccess();
-      localStorage.setItem('token', data);
+      localStorage.setItem('token', `Bearer ${data}`);
       localStorage.setItem('email', formData.email);
       toast.success('Logged in successfully!');
     },

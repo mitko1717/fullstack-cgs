@@ -18,7 +18,8 @@ class UserService extends HttpService {
 
   logoutUser() {
     return this.post({
-      url: 'user/logout'
+      url: 'user/logout',
+      headers: this.populateTokenToHeaderConfig()
     });
   }
 

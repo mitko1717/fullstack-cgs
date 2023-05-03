@@ -17,7 +17,7 @@ export const SigninComponent = () => {
   const onSigninSuccess = useOnLoginSuccess();
   const signin = useMutation((formData: ISignupData) => userService.registerUser(formData), {
     onSuccess: (data, formData) => {
-      localStorage.setItem('token', data);
+      localStorage.setItem('token', `Bearer ${data}`);
       localStorage.setItem('email', formData.email);
       onSigninSuccess();
       toast.success('signin successfully!');
