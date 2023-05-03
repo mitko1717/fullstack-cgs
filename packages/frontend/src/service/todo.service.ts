@@ -45,6 +45,18 @@ class TodoService extends HttpService {
       url: `todos/${todoId}/uncomplete`
     });
   }
+
+  setPrivateTodo(todoId: string | number) {
+    return this.put({
+      url: `todos/${todoId}/setPrivate`
+    });
+  }
+
+  setNotPrivateTodo(todoId: string | number) {
+    return this.put({
+      url: `todos/${todoId}/unsetPrivate`
+    });
+  }
 }
 
 const todoService = new TodoService();

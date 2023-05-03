@@ -24,7 +24,6 @@ export const AddTodoComponent = () => {
     },
     onError: () => {
       toast.error('Todo wasnt added!');
-      throw new Error();
     }
   });
 

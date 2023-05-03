@@ -3,7 +3,8 @@ import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
-import { SliderContainer, TodoContainer, ButtonBox } from './TodoContainer.styled';
+import { Box } from '@mui/material';
+import { SliderContainer, TodoContainer, ButtonBox, ButtonGrid } from './TodoContainer.styled';
 import { ITodo } from '../../../../interfaces/interface';
 import { TodoElementContainer } from '../TodoElement';
 import { TodoSlider } from './TodoSlider';
@@ -26,7 +27,13 @@ export const TodoContainerContainer = () => {
   return (
     <Layout>
       {data ? (
-        <>
+        <Box>
+          <ButtonGrid container sx={{ my: 2 }} justifyContent="center" display="flex">
+            <ButtonComponent>all</ButtonComponent>
+            <ButtonComponent>private</ButtonComponent>
+            <ButtonComponent>public</ButtonComponent>
+            <ButtonComponent>completed</ButtonComponent>
+          </ButtonGrid>
           <ButtonBox>
             <Link to={APP_KEYS.ROUTER_KEYS.ADDTODO}>
               <ButtonComponent>add new todo</ButtonComponent>
@@ -41,7 +48,7 @@ export const TodoContainerContainer = () => {
           <SliderContainer>
             <TodoSlider items={data} />
           </SliderContainer>
-        </>
+        </Box>
       ) : (
         <span />
       )}

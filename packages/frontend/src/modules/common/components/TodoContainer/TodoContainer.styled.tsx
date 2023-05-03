@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 import { SPACES, DEVICE } from '../../../theme';
 
@@ -33,4 +34,8 @@ export const ButtonBox = styled.div`
   display: flex;
   margin: ${SPACES.l} 0;
   justify-content: center;
+`;
+
+export const ButtonGrid = styled(Grid)`
+  column-gap: ${SPACES.s};
 `;
