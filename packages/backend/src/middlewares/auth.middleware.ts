@@ -93,6 +93,10 @@ export const blacklistedToken = async (req: Request, res: Response, next: NextFu
 
     next();
   } catch (error) {
-    res.status(401).json({ message: error });
+    if (error instanceof Error) {
+      res.status(401).json({ message: error.message });
+    } else {
+      throw error;
+    }
   }
 };

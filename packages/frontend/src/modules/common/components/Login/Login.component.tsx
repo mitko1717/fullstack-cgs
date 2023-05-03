@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import { useMutation } from 'react-query';
 import { toast } from 'react-hot-toast';
+import { AxiosError } from 'axios';
 import { ButtonComponent } from '../Button';
 import { LoginForm } from './Login.styled';
 import { APP_KEYS } from '../../consts';
@@ -24,8 +25,10 @@ export const LoginComponent = () => {
       localStorage.setItem(STORAGE_KEYS.EMAIL, formData.email);
       toast.success('Logged in successfully!');
     },
-    onError: () => {
-      toast.error('Some error occurred while logging in!');
+    onError: (error: AxiosError) => {
+      toast.error(
+        `Some error occurred while logging in: ${error.request.responseText}. ${error.message}`
+      );
     }
   });
 
