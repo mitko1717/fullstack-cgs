@@ -17,14 +17,13 @@ export const SigninComponent = () => {
   const onSigninSuccess = useOnLoginSuccess();
   const signin = useMutation((formData: ISignupData) => userService.registerUser(formData), {
     onSuccess: (data, formData) => {
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data);
       localStorage.setItem('email', formData.email);
       onSigninSuccess();
       toast.success('signin successfully!');
     },
     onError: () => {
       toast.error('some error while signin!');
-      throw new Error();
     }
   });
 

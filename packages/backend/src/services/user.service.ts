@@ -65,7 +65,7 @@ export default class UserService {
       from: 'diman12345677@gmail.com',
       to: email,
       subject: 'Password Reset',
-      text: `Your password has been reset to ${newPassword}. Please login and change your password as u want.`
+      text: `Your password has been reset to: ${newPassword}. Please login with new one.`
     };
 
     // Send the message using the transporter

@@ -18,13 +18,12 @@ export const LoginComponent = () => {
   const login = useMutation((formData: ILoginData) => userService.loginUser(formData), {
     onSuccess: (data, formData) => {
       onLoginSuccess();
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data);
       localStorage.setItem('email', formData.email);
       toast.success('Logged in successfully!');
     },
     onError: () => {
       toast.error('Some error occurred while logging in!');
-      throw new Error();
     }
   });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ROUTER_KEYS } from '../consts/app-keys.const';
 import { ButtonComponent } from './Button';
 
 const HeaderLinks = styled('header')`
@@ -10,10 +11,10 @@ const HeaderLinks = styled('header')`
 
 const Header = () => (
   <HeaderLinks>
-    <Link to="/todos">
+    <Link to={ROUTER_KEYS.CONTENT}>
       <ButtonComponent>Todo List</ButtonComponent>
     </Link>
-    <Link to="/profile">
+    <Link to={ROUTER_KEYS.MY_PROFILE}>
       <ButtonComponent>My Profile</ButtonComponent>
     </Link>
   </HeaderLinks>

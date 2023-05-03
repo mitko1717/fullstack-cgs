@@ -40,6 +40,14 @@ export function useOnLoginSuccess() {
   return onCompleteSuccess;
 }
 
+export function useOnLogoutSuccess() {
+  const navigate = useNavigate();
+  async function onCompleteSuccess() {
+    navigate(ROUTER_KEYS.ROOT);
+  }
+  return onCompleteSuccess;
+}
+
 export function useOnChangedPasswordSuccess() {
   const navigate = useNavigate();
   async function onCompleteSuccess() {

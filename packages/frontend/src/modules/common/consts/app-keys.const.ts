@@ -37,7 +37,8 @@ export const ROUTER_KEYS = {
   ADDTODO: '/addTodo',
   EDITTODO: '/editTodo/:id',
   EDIT: '/editTodo',
-  FORGET_PASSWORD: '/password'
+  FORGET_PASSWORD: '/password',
+  MY_PROFILE: '/myprofile'
 };
 
 export const SERVER_URL = 'http://localhost:4200';

@@ -12,6 +12,8 @@ import GridComponent from '../GridContainer';
 import { useOnChangedPasswordSuccess } from '../../../../helper/onSuccess';
 import userService from '../../../../service/user.service';
 
+const NEW_PASSWORD = `newpassword${Math.floor(Math.random() * (999 - 100 + 1) + 100).toString()}`;
+
 export const PasswordComponent = () => {
   const user = useMutation((email: string) => userService.getUserByEmail(email), {
     onSuccess: () => {
@@ -21,8 +23,6 @@ export const PasswordComponent = () => {
       toast.error('user with this email wasnt found!');
     }
   });
-
-  const NEW_PASSWORD = `newpassword${Math.floor(Math.random() * (999 - 100 + 1) + 100).toString()}`;
 
   const onChangedPassword = useOnChangedPasswordSuccess();
   const passwordChange = useMutation(
