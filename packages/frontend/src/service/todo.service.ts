@@ -1,10 +1,16 @@
 import { ITodoCreate, ITodoEdit } from '../modules/common/types/AddTodo.types';
+import { IParams } from '../modules/common/types/TodosParams.types';
 import HttpService from './http.service';
 
 class TodoService extends HttpService {
-  getAllTodos() {
+  getAllTodos(values: IParams) {
     return this.get({
-      url: 'todos'
+      url: 'todos',
+      params: {
+        search: values.search,
+        status: values.status,
+        list: values.list
+      }
     });
   }
 

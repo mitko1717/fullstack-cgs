@@ -14,7 +14,6 @@ import {
   ButtonsContainer
 } from './TodoView.styled';
 import { ButtonComponent } from '../Button';
-// import ToggleButton from '../ToggleButton';
 import { APP_KEYS } from '../../consts';
 import todoService from '../../../../service/todo.service';
 import Layout from '../Layout';
@@ -66,7 +65,6 @@ export const TodoViewComponent = () => {
             <Buttons>
               <ButtonDiv>
                 <span>Complete</span>
-                {/* <ToggleButton toggled={data.completed} /> */}
                 <ToggleButton toggled={data.completed} onClick={() => completeTodo.mutate(data.id)}>
                   {data.completed ? <Check /> : <Cross />}
                 </ToggleButton>
@@ -79,12 +77,11 @@ export const TodoViewComponent = () => {
                 >
                   {data.private ? <Check /> : <Cross />}
                 </ToggleButton>
-                {/* <ToggleButton toggled={data.private} onClick={() => setPrivateStatusTodo.mutate(data.id)}/> */}
               </ButtonDiv>
             </Buttons>
           </>
           <ButtonsContainer>
-            <Link to={`/${APP_KEYS.ROUTER_KEYS.EDIT}/${id}`}>
+            <Link to={`${APP_KEYS.ROUTER_KEYS.EDIT}/${id}`}>
               <ButtonComponent>edit todo</ButtonComponent>
             </Link>
             <Link to={APP_KEYS.ROUTER_KEYS.CONTENT}>

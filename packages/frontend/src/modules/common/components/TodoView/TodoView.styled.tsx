@@ -5,8 +5,8 @@ import { SIZES } from '../../../theme/fonts.const';
 export const TodoView = styled('div')`
   display: flex;
   flex-direction: column;
-  padding: ${SPACES.l};
   height: 33vh;
+  padding-top: 20px;
 
   @media ${DEVICE.desktop} {
     width: 70%;
@@ -43,7 +43,6 @@ export const Buttons = styled.div`
 
   @media ${DEVICE.desktop} {
     width: 75%;
-    padding-left: ${SPACES.sm};
   }
 `;
 
@@ -56,4 +55,5 @@ export const ButtonDiv = styled.div`
 export const ButtonsContainer = styled('div')`
   display: flex;
   justify-content: space-between;
+  margin-top: 50px;
 `;

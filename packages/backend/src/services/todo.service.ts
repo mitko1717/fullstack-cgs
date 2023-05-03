@@ -1,3 +1,4 @@
+import { IParams } from '../types/TodosParams';
 import { Todo } from '../entities/Todo.entity';
 
 export default class TodoService {
@@ -6,13 +7,30 @@ export default class TodoService {
     return todo;
   }
 
-  // filter out private todos that do not belong to active user
-  async findAll(userId: number) {
-    const todos = await Todo.createQueryBuilder('todo')
-      .where('todo.private = false OR todo.userId = :userId', { userId })
+  async findAll({ userId, search, status, list }: IParams) {
+    const query = Todo.createQueryBuilder('todo').where('todo.userId = :userId', { userId });
+
+    if (search && search.length >= 3) {
+      query.andWhere('(todo.title ILIKE :search OR todo.description ILIKE :search)', {
+        search: `%${search}%`
+      });
+    }
+
+    if (status && status === 'private') {
+      query.andWhere('todo.private = true');
+    } else if (status === 'public') {
+      query.andWhere('todo.private = false');
+    }
+
+    if (list && list === 'completed') {
+      query.andWhere('todo.completed = true');
+    }
+
+    const todos = await query
       .orderBy('todo.id', 'DESC')
       .leftJoinAndSelect('todo.user', 'user')
       .getMany();
+
     return todos;
   }
 
