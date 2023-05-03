@@ -26,8 +26,16 @@ class UserService extends HttpService {
     return this.put({
       url: `user/changePassword/${email}`,
       data: {
-        email,
-        password
+        newPassword: password
+      }
+    });
+  }
+
+  changePasswordByAdmin({ email, password }: ChangePassword) {
+    return this.put({
+      url: `user/changePasswordByAdmin/${email}`,
+      data: {
+        newPassword: password
       }
     });
   }

@@ -10,7 +10,6 @@ export function useOnAddTodoSuccess() {
     await queryClient.refetchQueries(QUERY_KEYS.TODOS);
     navigate(ROUTER_KEYS.CONTENT);
   }
-
   return onAddTodoSuccess;
 }
 
@@ -20,7 +19,6 @@ export function useOnDeleteSuccess() {
   async function onDeleteSuccess() {
     await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
   }
-
   return onDeleteSuccess;
 }
 
@@ -31,15 +29,21 @@ export function useOnCompleteSuccess() {
     await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
     await queryClient.invalidateQueries(QUERY_KEYS.TODO);
   }
-
   return onCompleteSuccess;
 }
 
 export function useOnLoginSuccess() {
   const navigate = useNavigate();
-
   async function onCompleteSuccess() {
     navigate(ROUTER_KEYS.CONTENT);
+  }
+  return onCompleteSuccess;
+}
+
+export function useOnChangedPasswordSuccess() {
+  const navigate = useNavigate();
+  async function onCompleteSuccess() {
+    navigate(ROUTER_KEYS.ROOT);
   }
 
   return onCompleteSuccess;

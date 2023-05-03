@@ -36,7 +36,8 @@ export const ROUTER_KEYS = {
   SIGNIN: '/signin',
   ADDTODO: '/addTodo',
   EDITTODO: '/editTodo/:id',
-  EDIT: 'editTodo'
+  EDIT: '/editTodo',
+  FORGET_PASSWORD: '/password'
 };
 
 export const SERVER_URL = 'http://localhost:4200';

@@ -8,6 +8,7 @@ import { SigninComponent } from '../common/components/SignIn';
 import { LoginComponent } from '../common/components/Login';
 import { AddTodoComponent } from '../common/components/AddTodo';
 import { EditTodoComponent } from '../common/components/EditTodo';
+import { PasswordComponent } from '../common/components/Password';
 
 export const MainRouter = () => (
   <Router>
@@ -19,6 +20,7 @@ export const MainRouter = () => (
       <Route element={<LoginComponent />} path={APP_KEYS.ROUTER_KEYS.LOGIN} />
       <Route element={<AddTodoComponent />} path={APP_KEYS.ROUTER_KEYS.ADDTODO} />
       <Route element={<EditTodoComponent />} path={APP_KEYS.ROUTER_KEYS.EDITTODO} />
+      <Route element={<PasswordComponent />} path={APP_KEYS.ROUTER_KEYS.FORGET_PASSWORD} />
     </Routes>
   </Router>
 );

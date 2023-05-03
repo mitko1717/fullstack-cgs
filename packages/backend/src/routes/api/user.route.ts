@@ -42,12 +42,16 @@ userRouter.post(
 userRouter.put(
   '/changePassword/:email',
   verifyToken,
-  checkUserExists,
   validateEntity(User),
   tryCatch(userController.changePassword.bind(userController))
 );
 
-// get user by ID
+userRouter.put(
+  '/changePasswordByAdmin/:email',
+  tryCatch(userController.changePassword.bind(userController))
+);
+
+// get user by email
 userRouter.get('/getUser/:email', userController.getUserByEmail.bind(userController));
 
 export default userRouter;
