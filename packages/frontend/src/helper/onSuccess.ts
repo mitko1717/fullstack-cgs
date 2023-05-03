@@ -1,6 +1,6 @@
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { QUERY_KEYS, ROUTER_KEYS } from '../modules/common/consts/app-keys.const';
+import { QUERY_KEYS, ROUTER_KEYS, STORAGE_KEYS } from '../modules/common/consts/app-keys.const';
 
 export function useOnAddTodoSuccess() {
   const navigate = useNavigate();
@@ -43,6 +43,7 @@ export function useOnLoginSuccess() {
 export function useOnLogoutSuccess() {
   const navigate = useNavigate();
   async function onCompleteSuccess() {
+    localStorage.removeItem(STORAGE_KEYS.TOKEN);
     navigate(ROUTER_KEYS.ROOT);
   }
   return onCompleteSuccess;

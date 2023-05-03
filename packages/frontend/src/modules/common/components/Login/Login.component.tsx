@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, useFormik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import { useMutation } from 'react-query';
@@ -12,34 +11,23 @@ import GridComponent from '../GridContainer';
 import { useOnLoginSuccess } from '../../../../helper/onSuccess';
 import userService from '../../../../service/user.service';
 import { ILoginData } from '../../types/Login.types';
+import { STORAGE_KEYS } from '../../consts/app-keys.const';
+import { initialValuesLogin } from '../../types/InitialValuesForms';
+import { formSchemaLogin } from '../../../../helper/validation';
 
 export const LoginComponent = () => {
   const onLoginSuccess = useOnLoginSuccess();
   const login = useMutation((formData: ILoginData) => userService.loginUser(formData), {
     onSuccess: (data, formData) => {
       onLoginSuccess();
-      localStorage.setItem('token', `Bearer ${data}`);
-      localStorage.setItem('email', formData.email);
+      localStorage.setItem(STORAGE_KEYS.TOKEN, `Bearer ${data}`);
+      localStorage.setItem(STORAGE_KEYS.EMAIL, formData.email);
       toast.success('Logged in successfully!');
     },
     onError: () => {
       toast.error('Some error occurred while logging in!');
     }
   });
-
-  const formSchema = yup.object().shape({
-    email: yup
-      .string()
-      .max(40, '40 charecters or less')
-      .email('Must be a valid email')
-      .required('required'),
-    password: yup.string().required('Required')
-  });
-
-  const initialValues = {
-    email: '',
-    password: ''
-  };
 
   const handleSubmit = (values: ILoginData) => {
     const formData = {
@@ -50,17 +38,21 @@ export const LoginComponent = () => {
   };
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
+    initialValues: initialValuesLogin,
+    validationSchema: formSchemaLogin,
     onSubmit: (values) => handleSubmit(values)
   });
 
   return (
-    <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
+    <Formik
+      initialValues={initialValuesLogin}
+      validationSchema={formSchemaLogin}
+      onSubmit={() => {}}
+    >
       <LoginForm onSubmit={formik.handleSubmit}>
         <Box m={3}>
           <Grid container spacing={2}>
-            {Object.keys(initialValues).map((key) => (
+            {Object.keys(initialValuesLogin).map((key) => (
               <GridComponent key={key} value={key} formik={formik} />
             ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">

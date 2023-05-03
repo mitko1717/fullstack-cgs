@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { STORAGE_KEYS } from '../modules/common/consts/app-keys.const';
 
 export default class HttpService {
   constructor(
@@ -17,7 +18,7 @@ export default class HttpService {
 
   protected populateTokenToHeaderConfig() {
     return {
-      Authorization: localStorage.getItem('token')
+      Authorization: localStorage.getItem(STORAGE_KEYS.TOKEN)
     };
   }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, useFormik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import { useMutation } from 'react-query';
@@ -9,16 +8,19 @@ import { SigninForm } from './Signin.styled';
 import { APP_KEYS } from '../../consts';
 import { ButtonComponent } from '../Button';
 import GridComponent from '../GridContainer';
-import { IInitialValues, ISignupData } from '../../types/Login.types';
+import { ISignupData } from '../../types/Login.types';
 import { useOnLoginSuccess } from '../../../../helper/onSuccess';
 import userService from '../../../../service/user.service';
+import { STORAGE_KEYS } from '../../consts/app-keys.const';
+import { initialValuesSignIn } from '../../types/InitialValuesForms';
+import { formSchemaSignIn } from '../../../../helper/validation';
 
 export const SigninComponent = () => {
   const onSigninSuccess = useOnLoginSuccess();
   const signin = useMutation((formData: ISignupData) => userService.registerUser(formData), {
     onSuccess: (data, formData) => {
-      localStorage.setItem('token', `Bearer ${data}`);
-      localStorage.setItem('email', formData.email);
+      localStorage.setItem(STORAGE_KEYS.TOKEN, `Bearer ${data}`);
+      localStorage.setItem(STORAGE_KEYS.EMAIL, formData.email);
       onSigninSuccess();
       toast.success('signin successfully!');
     },
@@ -27,26 +29,7 @@ export const SigninComponent = () => {
     }
   });
 
-  const formSchema = yup.object().shape({
-    email: yup
-      .string()
-      .max(40, '40 charecters or less')
-      .email('Must be a valid email')
-      .required('required'),
-    password: yup.string().required('Required'),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password')], 'Passwords must match')
-      .required('Required')
-  });
-
-  const initialValues: IInitialValues = {
-    email: '',
-    password: '',
-    confirmPassword: ''
-  };
-
-  const handleSubmit = (values: IInitialValues) => {
+  const handleSubmit = (values: ISignupData) => {
     const formData: ISignupData = {
       email: values.email,
       password: values.password
@@ -55,17 +38,21 @@ export const SigninComponent = () => {
   };
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
+    initialValues: initialValuesSignIn,
+    validationSchema: formSchemaSignIn,
     onSubmit: (values) => handleSubmit(values)
   });
 
   return (
-    <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
+    <Formik
+      initialValues={initialValuesSignIn}
+      validationSchema={formSchemaSignIn}
+      onSubmit={() => {}}
+    >
       <SigninForm onSubmit={formik.handleSubmit}>
         <Box m={3}>
           <Grid container spacing={2}>
-            {Object.keys(initialValues).map((key) => (
+            {Object.keys(initialValuesSignIn).map((key) => (
               <GridComponent key={key} value={key} formik={formik} />
             ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">

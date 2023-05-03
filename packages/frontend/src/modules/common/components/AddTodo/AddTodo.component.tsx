@@ -1,6 +1,5 @@
 import React from 'react';
 import { useFormik, Formik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { Box, Grid } from '@mui/material';
@@ -13,6 +12,8 @@ import { IInitialValues } from '../../types/AddTodoValues';
 import todoService from '../../../../service/todo.service';
 import { useOnAddTodoSuccess } from '../../../../helper/onSuccess';
 import GridComponent from '../GridContainer';
+import { initialValuesAddTodo } from '../../types/InitialValuesForms';
+import { formSchemaAddTodo } from '../../../../helper/validation';
 
 export const AddTodoComponent = () => {
   const onAddTodoSuccess = useOnAddTodoSuccess();
@@ -27,16 +28,6 @@ export const AddTodoComponent = () => {
     }
   });
 
-  const formSchema = yup.object().shape({
-    title: yup.string().max(40, '40 charecters or less').required('required'),
-    description: yup.string().required('Required')
-  });
-
-  const initialValues: IInitialValues = {
-    title: '',
-    description: ''
-  };
-
   const handleSubmit = (values: IInitialValues) => {
     const formData: ITodoCreate = {
       title: values.title,
@@ -49,17 +40,21 @@ export const AddTodoComponent = () => {
   };
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
+    initialValues: initialValuesAddTodo,
+    validationSchema: formSchemaAddTodo,
     onSubmit: (values) => handleSubmit(values)
   });
 
   return (
-    <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
+    <Formik
+      initialValues={initialValuesAddTodo}
+      validationSchema={formSchemaAddTodo}
+      onSubmit={() => {}}
+    >
       <AddTodoForm onSubmit={formik.handleSubmit}>
         <Box m={3}>
           <Grid container spacing={2}>
-            {Object.keys(initialValues).map((key) => (
+            {Object.keys(initialValuesAddTodo).map((key) => (
               <GridComponent key={key} value={key} formik={formik} />
             ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">

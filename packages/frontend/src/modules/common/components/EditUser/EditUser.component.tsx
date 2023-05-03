@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, useFormik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import { Alert, Box, CircularProgress, Grid, Typography } from '@mui/material';
@@ -13,12 +12,15 @@ import { APP_KEYS } from '../../consts';
 import GridComponent from '../GridContainer';
 import userService from '../../../../service/user.service';
 import Layout from '../Layout';
+import { QUERY_KEYS, STORAGE_KEYS } from '../../consts/app-keys.const';
+import { initialValuesEditForm } from '../../types/InitialValuesForms';
+import { formSchemaEditUser } from '../../../../helper/validation';
 
 export const EditUserComponent = () => {
-  const email = localStorage.getItem('email') || 'diman12345677@gmail.com';
+  const email = localStorage.getItem(STORAGE_KEYS.EMAIL) || 'diman12345677@gmail.com';
 
   const fetchUser = async () => userService.getUserByEmail(email);
-  const { data, isLoading, isError } = useQuery<IUser>(['user', email], fetchUser);
+  const { data, isLoading, isError } = useQuery<IUser>([QUERY_KEYS.USER, email], fetchUser);
 
   const onLogoutSuccess = useOnLogoutSuccess();
   const logout = useMutation(() => userService.logoutUser(), {
@@ -43,19 +45,13 @@ export const EditUserComponent = () => {
     }
   );
 
-  const formSchema = yup.object().shape({
-    password: yup.string().max(40, '40 charecters or less').required('required')
-  });
-  const initialValues = {
-    password: ''
-  };
   const handleSubmit = (password: string) => {
     passwordChange.mutate(password);
   };
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
+    initialValues: initialValuesEditForm,
+    validationSchema: formSchemaEditUser,
     onSubmit: (values) => handleSubmit(values.password)
   });
 
@@ -88,14 +84,18 @@ export const EditUserComponent = () => {
           </Grid>
         )}
       </Grid>
-      <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
+      <Formik
+        initialValues={initialValuesEditForm}
+        validationSchema={formSchemaEditUser}
+        onSubmit={() => {}}
+      >
         <EditTodoForm onSubmit={formik.handleSubmit}>
           <Typography align="center" sx={{ width: 1, p: 2, fontWeight: 'bold' }}>
             if u want to set new password
           </Typography>
           <Box m={3}>
             <Grid container spacing={2}>
-              {Object.keys(initialValues).map((key) => (
+              {Object.keys(initialValuesEditForm).map((key) => (
                 <GridComponent key={key} value={key} formik={formik} />
               ))}
               <Grid item xs={12} justifyContent="space-between" display="flex">

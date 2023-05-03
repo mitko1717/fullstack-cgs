@@ -8,7 +8,7 @@ export interface ISignupData {
   password: string;
 }
 
-export type IInitialValues = {
+export type IInitialValuesSignIn = {
   email: string;
   password: string;
   confirmPassword: string;

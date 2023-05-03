@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, useFormik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import { useMutation } from 'react-query';
@@ -11,6 +10,8 @@ import { APP_KEYS } from '../../consts';
 import GridComponent from '../GridContainer';
 import { useOnChangedPasswordSuccess } from '../../../../helper/onSuccess';
 import userService from '../../../../service/user.service';
+import { initialValuesPasswordComp } from '../../types/InitialValuesForms';
+import { formSchemaPassword } from '../../../../helper/validation';
 
 const NEW_PASSWORD = `newpassword${Math.floor(Math.random() * (999 - 100 + 1) + 100).toString()}`;
 
@@ -38,35 +39,27 @@ export const PasswordComponent = () => {
     }
   );
 
-  const formSchema = yup.object().shape({
-    email: yup
-      .string()
-      .max(40, '40 charecters or less')
-      .email('Must be a valid email')
-      .required('required')
-  });
-
-  const initialValues = {
-    email: ''
-  };
-
   const handleSubmit = async (email: string) => {
     await user.mutateAsync(email);
     await passwordChange.mutateAsync(email);
   };
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
+    initialValues: initialValuesPasswordComp,
+    validationSchema: formSchemaPassword,
     onSubmit: (values) => handleSubmit(values.email)
   });
 
   return (
-    <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
+    <Formik
+      initialValues={initialValuesPasswordComp}
+      validationSchema={formSchemaPassword}
+      onSubmit={() => {}}
+    >
       <PasswordForm onSubmit={formik.handleSubmit}>
         <Box m={3}>
           <Grid container spacing={2}>
-            {Object.keys(initialValues).map((key) => (
+            {Object.keys(initialValuesPasswordComp).map((key) => (
               <GridComponent key={key} value={key} formik={formik} />
             ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">
