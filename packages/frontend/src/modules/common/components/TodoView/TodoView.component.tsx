@@ -16,6 +16,7 @@ import { ButtonComponent } from '../Button';
 import ToggleButton from '../ToggleButton';
 import { APP_KEYS } from '../../consts';
 import todoService from '../../../../service/todo.service';
+import Layout from '../Layout';
 
 export const TodoViewComponent = () => {
   const { id } = useParams(); // get id from router
@@ -25,33 +26,37 @@ export const TodoViewComponent = () => {
   if (isLoading) return <CircularProgress />;
   if (isError) return <Alert severity="error">Error fetching data happened!</Alert>;
 
-  return data ? (
-    <TodoView>
-      <>
-        <Title>{data.title}</Title>
-        <span>Description:</span>
-        <Description>{data.description}</Description>
-        <Buttons>
-          <ButtonDiv>
-            <span>Complete</span>
-            <ToggleButton toggled={data.completed} />
-          </ButtonDiv>
-          <ButtonDiv>
-            <span>Private</span>
-            <ToggleButton toggled={data.private} />
-          </ButtonDiv>
-        </Buttons>
-      </>
-      <ButtonsContainer>
-        <Link to={`/${APP_KEYS.ROUTER_KEYS.EDIT}/${id}`}>
-          <ButtonComponent>edit todo</ButtonComponent>
-        </Link>
-        <Link to={APP_KEYS.ROUTER_KEYS.CONTENT}>
-          <ButtonComponent>back</ButtonComponent>
-        </Link>
-      </ButtonsContainer>
-    </TodoView>
-  ) : (
-    <span />
+  return (
+    <Layout>
+      {data ? (
+        <TodoView>
+          <>
+            <Title>{data.title}</Title>
+            <span>Description:</span>
+            <Description>{data.description}</Description>
+            <Buttons>
+              <ButtonDiv>
+                <span>Complete</span>
+                <ToggleButton toggled={data.completed} />
+              </ButtonDiv>
+              <ButtonDiv>
+                <span>Private</span>
+                <ToggleButton toggled={data.private} />
+              </ButtonDiv>
+            </Buttons>
+          </>
+          <ButtonsContainer>
+            <Link to={`/${APP_KEYS.ROUTER_KEYS.EDIT}/${id}`}>
+              <ButtonComponent>edit todo</ButtonComponent>
+            </Link>
+            <Link to={APP_KEYS.ROUTER_KEYS.CONTENT}>
+              <ButtonComponent>back</ButtonComponent>
+            </Link>
+          </ButtonsContainer>
+        </TodoView>
+      ) : (
+        <span />
+      )}
+    </Layout>
   );
 };

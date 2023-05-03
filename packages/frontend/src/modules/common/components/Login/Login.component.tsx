@@ -1,58 +1,68 @@
 import React from 'react';
 import { Formik, useFormik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
+import { useMutation } from 'react-query';
+import { toast } from 'react-hot-toast';
+import { AxiosError } from 'axios';
 import { ButtonComponent } from '../Button';
 import { LoginForm } from './Login.styled';
 import { APP_KEYS } from '../../consts';
 import GridComponent from '../GridContainer';
+import { useOnLoginSuccess } from '../../../../helper/onSuccess';
+import userService from '../../../../service/user.service';
+import { ILoginData } from '../../types/Login.types';
+import { STORAGE_KEYS } from '../../consts/app-keys.const';
+import { initialValuesLogin } from '../../types/InitialValuesForms';
+import { formSchemaLogin } from '../../../../helper/validation';
 
 export const LoginComponent = () => {
-  const formSchema = yup.object().shape({
-    email: yup.string().max(20, '20 charecters or less').required('required'),
-    password: yup.string().required('Required')
+  const onLoginSuccess = useOnLoginSuccess();
+  const login = useMutation((formData: ILoginData) => userService.loginUser(formData), {
+    onSuccess: (data, formData) => {
+      onLoginSuccess();
+      localStorage.setItem(STORAGE_KEYS.TOKEN, `Bearer ${data}`);
+      localStorage.setItem(STORAGE_KEYS.EMAIL, formData.email);
+      toast.success('Logged in successfully!');
+    },
+    onError: (error: AxiosError) => {
+      toast.error(
+        `Some error occurred while logging in: ${error.request.responseText}. ${error.message}`
+      );
+    }
   });
 
-  const initialValues = {
-    email: '',
-    password: ''
+  const handleSubmit = (values: ILoginData) => {
+    const formData = {
+      email: values.email,
+      password: values.password
+    };
+    login.mutate(formData);
   };
 
-  // const handleSubmit = (values: any) => {
-  //   const formData = {
-  //     email: values.title,
-  //     password: values.password
-  //   };
-  //   addTodo.mutate(formData);
-  // };
-
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
-    // onSubmit: (values) => handleSubmit(values)
-    onSubmit: () => {}
+    initialValues: initialValuesLogin,
+    validationSchema: formSchemaLogin,
+    onSubmit: (values) => handleSubmit(values)
   });
 
   return (
     <Formik
-      initialValues={initialValues}
-      validationSchema={formSchema}
-      onSubmit={() => {
-        // Handle form submission
-      }}
+      initialValues={initialValuesLogin}
+      validationSchema={formSchemaLogin}
+      onSubmit={() => {}}
     >
-      <LoginForm>
+      <LoginForm onSubmit={formik.handleSubmit}>
         <Box m={3}>
           <Grid container spacing={2}>
-            {Object.keys(initialValues).map((key) => (
+            {Object.keys(initialValuesLogin).map((key) => (
               <GridComponent key={key} value={key} formik={formik} />
             ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">
               <Link to={APP_KEYS.ROUTER_KEYS.ROOT}>
                 <ButtonComponent>Back</ButtonComponent>
               </Link>
-              <ButtonComponent>Submit</ButtonComponent>
+              <ButtonComponent type="submit">Submit</ButtonComponent>
             </Grid>
           </Grid>
         </Box>

@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 import { User } from '../entities/User.entity';
+import { Token } from '../entities/token.entity';
 
 export default class UserService {
   async signup(email: string, password: string): Promise<User> {
@@ -16,7 +18,7 @@ export default class UserService {
     return user;
   }
 
-  async login(email: string): Promise<string> {
+  async login(email: string) {
     // find user by email
     const user = await User.findOne({ where: { email } });
 
@@ -28,8 +30,13 @@ export default class UserService {
     return token;
   }
 
-  async logout() {
-    return 'logout';
+  async logout(token: string) {
+    const blacklistedToken = Token.create({
+      token,
+      expiresat: new Date()
+    });
+
+    return Token.save(blacklistedToken);
   }
 
   async getUserByEmail(email: string) {
@@ -41,6 +48,28 @@ export default class UserService {
     await User.update({ email }, { password: hashedNewPassword });
     // first arg - filter to select user to update
     // second arg - object containing new values to update
+
+    // Create a Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'diman12345677@gmail.com',
+        pass: process.env.PASSWORD
+      }
+    });
+
+    // Define the message to be sent
+    const message = {
+      from: 'diman12345677@gmail.com',
+      to: email,
+      subject: 'Password Reset',
+      text: `Your password has been reset to: ${newPassword}. Please login with new one.`
+    };
+
+    // Send the message using the transporter
+    await transporter.sendMail(message);
   }
 }
 

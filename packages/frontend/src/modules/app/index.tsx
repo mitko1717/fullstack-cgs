@@ -2,6 +2,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
+import { Toaster } from 'react-hot-toast';
 import { MainRouter } from '../navigation';
 
 import * as theme from '../theme';
@@ -25,6 +26,7 @@ const AppContainer = () => (
     <Styled.GlobalStyles />
     <QueryClientProvider client={queryClient}>
       <MainRouter />
+      <Toaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </ThemeProvider>

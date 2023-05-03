@@ -20,3 +20,8 @@ export const ButtonsContainer = styled('div')`
 export const Title = styled('h2')`
   margin-bottom: ${SPACES.lg};
 `;
+
+export const Span = styled('span')`
+  text-decoration: underline;
+  margin-top: ${SPACES.lg};
+`;

@@ -2,18 +2,15 @@
 export const STORAGE_KEYS = {
   JWT_TOKEN_STUDENT: 'JWT_TOKEN_STUDENT',
   JWT_TOKEN_INSTRUCTOR: 'JWT_TOKEN_INSTRUCTOR',
-  ADDRESS: 'ADDRESS',
-  TOKEN: 'TOKEN'
+  TOKEN: 'token',
+  EMAIL: 'email'
 };
 
 // React-query keys
 export const QUERY_KEYS = {
-  EXAMPLE: 'EXAMPLE',
-  TOKEN: 'TOKEN',
-  STATISTIC: 'statistic',
-  TRENDING: 'trending',
   TODOS: ['todos'],
-  TODO: ['todo']
+  TODO: ['todo'],
+  USER: 'user'
 };
 
 // Backend Routes
@@ -36,7 +33,7 @@ export const ROUTER_KEYS = {
   SIGNIN: '/signin',
   ADDTODO: '/addTodo',
   EDITTODO: '/editTodo/:id',
-  EDIT: 'editTodo'
+  EDIT: '/editTodo',
+  FORGET_PASSWORD: '/password',
+  MY_PROFILE: '/myprofile'
 };
-
-export const SERVER_URL = 'http://localhost:4200';

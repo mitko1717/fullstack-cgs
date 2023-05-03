@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { createConnection, DataSourceOptions } from 'typeorm';
+import { Token } from '../entities/token.entity';
 import { Todo } from '../entities/Todo.entity';
 import { User } from '../entities/User.entity';
 
@@ -10,13 +11,12 @@ const connectDB = async () => {
       port: Number(process.env.POSTGRES_PORT),
       logging: ['query', 'error'],
       type: 'postgres',
-      entities: [Todo, User],
+      entities: [Todo, User, Token],
       // migrations: ['dist/migrations/**/*.{ts,js}'],
       // subscribers: ['src/subscriber/**/*.ts'],
       database: process.env.POSTGRES_DB,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      // synchronize: true
       synchronize: false
     };
     await createConnection(options);

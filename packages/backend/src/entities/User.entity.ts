@@ -1,5 +1,6 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import type { Todo } from './todo.entity';
+import type { Token } from './token.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -14,4 +15,7 @@ export class User extends BaseEntity {
 
   @OneToMany('Todo', 'user')
   todos: Relation<Todo[]>;
+
+  @OneToMany('Token', 'user')
+  tokens: Relation<Token[]>;
 }

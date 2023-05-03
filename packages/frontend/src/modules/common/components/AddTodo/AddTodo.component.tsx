@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFormik, Formik } from 'formik';
-import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { Box, Grid } from '@mui/material';
+import { toast } from 'react-hot-toast';
 import { AddTodoForm } from './AddTodo.styled';
 import { ButtonComponent } from '../Button';
 import { APP_KEYS } from '../../consts';
@@ -12,25 +12,21 @@ import { IInitialValues } from '../../types/AddTodoValues';
 import todoService from '../../../../service/todo.service';
 import { useOnAddTodoSuccess } from '../../../../helper/onSuccess';
 import GridComponent from '../GridContainer';
+import { initialValuesAddTodo } from '../../types/InitialValuesForms';
+import { formSchemaAddTodo } from '../../../../helper/validation';
 
 export const AddTodoComponent = () => {
   const onAddTodoSuccess = useOnAddTodoSuccess();
   const addTodo = useMutation((formData: ITodoCreate) => todoService.createTodo(formData), {
-    onSuccess: onAddTodoSuccess,
+    onSuccess: () => {
+      onAddTodoSuccess();
+      toast.success('Todo added successfully!');
+    },
     onError: () => {
+      toast.error('Todo wasnt added!');
       throw new Error();
     }
   });
-
-  const formSchema = yup.object().shape({
-    title: yup.string().max(20, '20 charecters or less').required('required'),
-    description: yup.string().required('Required')
-  });
-
-  const initialValues: IInitialValues = {
-    title: '',
-    description: ''
-  };
 
   const handleSubmit = (values: IInitialValues) => {
     const formData: ITodoCreate = {
@@ -44,17 +40,21 @@ export const AddTodoComponent = () => {
   };
 
   const formik = useFormik({
-    initialValues,
-    validationSchema: formSchema,
+    initialValues: initialValuesAddTodo,
+    validationSchema: formSchemaAddTodo,
     onSubmit: (values) => handleSubmit(values)
   });
 
   return (
-    <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={() => {}}>
+    <Formik
+      initialValues={initialValuesAddTodo}
+      validationSchema={formSchemaAddTodo}
+      onSubmit={() => {}}
+    >
       <AddTodoForm onSubmit={formik.handleSubmit}>
         <Box m={3}>
           <Grid container spacing={2}>
-            {Object.keys(initialValues).map((key) => (
+            {Object.keys(initialValuesAddTodo).map((key) => (
               <GridComponent key={key} value={key} formik={formik} />
             ))}
             <Grid item xs={12} justifyContent="space-between" display="flex">

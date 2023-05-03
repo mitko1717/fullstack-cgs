@@ -1,4 +1,5 @@
-import axios from 'axios'; // It could be any fetching services, such as default fetch, call api, xhr, etc.
+import axios from 'axios';
+import { STORAGE_KEYS } from '../modules/common/consts/app-keys.const';
 
 export default class HttpService {
   constructor(
@@ -15,9 +16,9 @@ export default class HttpService {
     return `${this.baseUrl}/${this.apiVersion}/${url}`;
   }
 
-  private populateTokenToHeaderConfig() {
+  protected populateTokenToHeaderConfig() {
     return {
-      Authorization: localStorage.getItem('token')
+      Authorization: localStorage.getItem(STORAGE_KEYS.TOKEN)
     };
   }
 
@@ -39,7 +40,7 @@ export default class HttpService {
     return res.data;
   }
 
-  async post(config: any, withAuth = true) {
+  async post(config: any, withAuth = false) {
     if (withAuth) {
       config.headers = {
         ...config.headers,

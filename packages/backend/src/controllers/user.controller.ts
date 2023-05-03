@@ -14,8 +14,13 @@ export class UserController {
     return this.userService.login(req.body.email);
   }
 
-  async logOut() {
-    return this.userService.logout();
+  async logOut(req: Request, res: Response) {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+
+    await this.userService.logout(token);
+    return res.status(200).json({ message: 'User logged out successfully' });
   }
 
   async changePassword(req: Request, res: Response) {
@@ -23,7 +28,6 @@ export class UserController {
     const { email } = req.params;
 
     await this.userService.updatePassword(email, newPassword);
-
     return res.json({ message: 'Password updated successfully' });
   }
 
