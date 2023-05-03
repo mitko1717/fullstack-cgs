@@ -28,7 +28,7 @@ export const EditTodoComponent = () => {
   });
 
   const formSchema = yup.object().shape({
-    title: yup.string().max(20, '20 charecters or less').required('required'),
+    title: yup.string().max(40, '40 charecters or less').required('required'),
     description: yup.string().required('Required')
   });
 

@@ -3,6 +3,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { User } from '../entities/User.entity';
+import { Token } from '../entities/token.entity';
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -61,9 +62,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   // get JWT token from request headers
   const token = req.headers.authorization?.split(' ')[1];
 
-  if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
+  if (!token) return res.status(401).json({ message: 'No token provided' });
 
   // verify token
   jwt.verify(token, process.env.JWT_SECRET, {}, (err, payload) => {
@@ -75,4 +74,28 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
 
     next();
   });
+};
+
+export const blacklistedToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (token) {
+      const blacklistToken = await Token.findOne({
+        where: { token }
+      });
+
+      if (blacklistToken) throw new Error('Token has been blacklisted');
+
+      const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!);
+      const expirationTime = decodedToken.exp * 1000; // convert to milliseconds
+      const currentTime = Date.now();
+
+      if (expirationTime < currentTime) throw new Error('Token has expired');
+    }
+
+    next();
+  } catch (error: any) {
+    res.status(401).json({ message: error.message });
+  }
 };

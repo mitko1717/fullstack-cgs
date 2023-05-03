@@ -4,27 +4,27 @@ import HttpService from './http.service';
 class UserService extends HttpService {
   registerUser(user: RegisterUser) {
     return this.post({
-      url: 'register',
+      url: 'user/register',
       data: user
     });
   }
 
   loginUser(user: LoginUser) {
     return this.post({
-      url: 'login',
+      url: 'user/login',
       data: user
     });
   }
 
   logoutUser() {
     return this.post({
-      url: 'logout'
+      url: 'user/logout'
     });
   }
 
   changePassword({ email, password }: ChangePassword) {
     return this.put({
-      url: `changePassword/${email}`,
+      url: `user/changePassword/${email}`,
       data: {
         email,
         password
@@ -34,7 +34,7 @@ class UserService extends HttpService {
 
   getUserByEmail(email: string) {
     return this.get({
-      url: `getUser/${email}`
+      url: `user/getUser/${email}`
     });
   }
 }

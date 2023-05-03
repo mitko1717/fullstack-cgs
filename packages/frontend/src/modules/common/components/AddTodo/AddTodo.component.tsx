@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { Box, Grid } from '@mui/material';
+import { toast } from 'react-hot-toast';
 import { AddTodoForm } from './AddTodo.styled';
 import { ButtonComponent } from '../Button';
 import { APP_KEYS } from '../../consts';
@@ -16,14 +17,18 @@ import GridComponent from '../GridContainer';
 export const AddTodoComponent = () => {
   const onAddTodoSuccess = useOnAddTodoSuccess();
   const addTodo = useMutation((formData: ITodoCreate) => todoService.createTodo(formData), {
-    onSuccess: onAddTodoSuccess,
+    onSuccess: () => {
+      onAddTodoSuccess();
+      toast.success('Todo added successfully!');
+    },
     onError: () => {
+      toast.error('Todo wasnt added!');
       throw new Error();
     }
   });
 
   const formSchema = yup.object().shape({
-    title: yup.string().max(20, '20 charecters or less').required('required'),
+    title: yup.string().max(40, '40 charecters or less').required('required'),
     description: yup.string().required('Required')
   });
 

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '../entities/User.entity';
+import { Token } from '../entities/token.entity';
 
 export default class UserService {
   async signup(email: string, password: string): Promise<User> {
@@ -16,7 +17,7 @@ export default class UserService {
     return user;
   }
 
-  async login(email: string): Promise<string> {
+  async login(email: string) {
     // find user by email
     const user = await User.findOne({ where: { email } });
 
@@ -28,8 +29,13 @@ export default class UserService {
     return token;
   }
 
-  async logout() {
-    return 'logout';
+  async logout(token: string) {
+    const blacklistedToken = Token.create({
+      token,
+      expiresat: new Date()
+    });
+
+    return Token.save(blacklistedToken);
   }
 
   async getUserByEmail(email: string) {

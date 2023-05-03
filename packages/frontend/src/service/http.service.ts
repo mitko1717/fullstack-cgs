@@ -39,7 +39,7 @@ export default class HttpService {
     return res.data;
   }
 
-  async post(config: any, withAuth = true) {
+  async post(config: any, withAuth = false) {
     if (withAuth) {
       config.headers = {
         ...config.headers,

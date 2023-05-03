@@ -17,7 +17,7 @@ class TodoService extends HttpService {
   editTodo(todo: ITodoEdit) {
     return this.put({
       url: `todos/${todo.id}`,
-      data: { ...todo, id: undefined }
+      data: { ...todo, id: todo.id }
     });
   }
 

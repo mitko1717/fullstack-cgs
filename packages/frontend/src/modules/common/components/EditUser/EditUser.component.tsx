@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { Link, useParams } from 'react-router-dom';
 import { useQueryClient, useMutation } from 'react-query';
 import { Box, Grid } from '@mui/material';
+import { toast } from 'react-hot-toast';
 import { EditTodoForm } from './EditUser.styled';
 import { ButtonComponent } from '../Button';
 import { ITodoEdit } from '../../types/AddTodo.types';
@@ -20,14 +21,18 @@ export const EditUserComponent = () => {
   const { id } = useParams(); // get id from router
   const cashedTodoData = queryClient.getQueryData<ITodo>(['todo', id]);
   const editTodo = useMutation((formData: ITodoEdit) => todoService.editTodo(formData), {
-    onSuccess: onAddTodoSuccess,
+    onSuccess: () => {
+      onAddTodoSuccess();
+      toast.success('Todo edited successfully!');
+    },
     onError: () => {
+      toast.error('Todo wasnt edited!');
       throw new Error();
     }
   });
 
   const formSchema = yup.object().shape({
-    title: yup.string().max(20, '20 charecters or less').required('required'),
+    title: yup.string().max(40, '40 charecters or less').required('required'),
     description: yup.string().required('Required')
   });
 

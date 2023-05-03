@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { QUERY_KEYS, ROUTER_KEYS } from '../modules/common/consts/app-keys.const';
 
 export function useOnAddTodoSuccess() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   async function onAddTodoSuccess() {
     await queryClient.refetchQueries(QUERY_KEYS.TODOS);
@@ -30,6 +30,16 @@ export function useOnCompleteSuccess() {
   async function onCompleteSuccess() {
     await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
     await queryClient.invalidateQueries(QUERY_KEYS.TODO);
+  }
+
+  return onCompleteSuccess;
+}
+
+export function useOnLoginSuccess() {
+  const navigate = useNavigate();
+
+  async function onCompleteSuccess() {
+    navigate(ROUTER_KEYS.CONTENT);
   }
 
   return onCompleteSuccess;
