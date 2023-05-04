@@ -10,7 +10,9 @@ class TodoService extends HttpService {
         search: values.search,
         status: values.status,
         list: values.list,
-        userId: values.userId
+        userId: values.userId,
+        page: values.page,
+        limit: values.limit
       }
     });
   }
