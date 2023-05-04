@@ -1,15 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import { ButtonGrid } from './TodoContainer.styled';
-import { IButton } from './buttonsData';
-
-interface IProps {
-  buttons: IButton[];
-  listButton: string;
-  privateOrPublic: string;
-  handlePrivateOrPublicClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleListClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+import { IButtonsProps } from '../../types/TodoContainerComponents.types';
 
 export const Buttons = ({
   buttons,
@@ -17,7 +9,7 @@ export const Buttons = ({
   privateOrPublic,
   handlePrivateOrPublicClick,
   handleListClick
-}: IProps) => (
+}: IButtonsProps) => (
   <ButtonGrid container sx={{ my: 2 }}>
     {buttons.map((b) => (
       <Button

@@ -1,12 +1,8 @@
 import React from 'react';
 import { TextField } from '@mui/material';
+import { ISearchInputProps } from '../../types/TodoContainerComponents.types';
 
-interface IProps {
-  searchQuery: string;
-  handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export const SearchInput = ({ searchQuery, handleSearchChange }: IProps) => (
+export const SearchInput = ({ searchQuery, handleSearchChange }: ISearchInputProps) => (
   <TextField
     id="outlined-basic"
     size="medium"

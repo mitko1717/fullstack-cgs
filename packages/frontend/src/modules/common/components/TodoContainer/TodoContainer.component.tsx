@@ -195,14 +195,14 @@ export const TodoContainerContainer = () => {
             handleLimitChange={handleLimitChange}
             setLimit={handleSetLimit}
           />
-          
-            <Pagination
-              count={todosData.totalPages}
-              color="primary"
-              page={paginationNum}
-              onChange={handlePageChange}
-              sx={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}
-            />
+
+          <Pagination
+            count={todosData.totalPages}
+            color="primary"
+            page={paginationNum}
+            onChange={handlePageChange}
+            sx={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}
+          />
         </Box>
       ) : (
         <span />
