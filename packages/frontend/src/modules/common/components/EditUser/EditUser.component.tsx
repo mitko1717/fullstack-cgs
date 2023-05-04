@@ -19,8 +19,10 @@ import { formSchemaEditUser } from '../../../../helper/validation';
 export const EditUserComponent = () => {
   const email = localStorage.getItem(STORAGE_KEYS.EMAIL) || 'diman12345677@gmail.com';
 
-  const fetchUser = async () => userService.getUserByEmail(email);
-  const { data, isLoading, isError } = useQuery<IUser>([QUERY_KEYS.USER, email], fetchUser);
+  const { data, isLoading, isError } = useQuery<IUser>([QUERY_KEYS.USER, email], async () => {
+    const user = await userService.getUserByEmail(email);
+    return user;
+  });
 
   const onLogoutSuccess = useOnLogoutSuccess();
   const logout = useMutation(() => userService.logoutUser(), {

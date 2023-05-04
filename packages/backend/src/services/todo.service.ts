@@ -10,21 +10,15 @@ export default class TodoService {
   async findAll({ userId, search, status, list }: IParams) {
     const query = Todo.createQueryBuilder('todo').where('todo.userId = :userId', { userId });
 
-    if (search && search.length >= 3) {
-      query.andWhere('(todo.title ILIKE :search OR todo.description ILIKE :search)', {
-        search: `%${search}%`
-      });
-    }
-
-    if (status && status === 'private') {
-      query.andWhere('todo.private = true');
-    } else if (status === 'public') {
-      query.andWhere('todo.private = false');
-    }
-
-    if (list && list === 'completed') {
-      query.andWhere('todo.completed = true');
-    }
+    query
+      .andWhere(
+        search && search.length >= 3
+          ? '(todo.title ILIKE :search OR todo.description ILIKE :search)'
+          : '1=1',
+        { search: `%${search}%` }
+      )
+      .andWhere(status === 'private' ? 'todo.private = true' : '1=1')
+      .andWhere(list === 'completed' ? 'todo.completed = true' : '1=1');
 
     const todos = await query
       .orderBy('todo.id', 'DESC')

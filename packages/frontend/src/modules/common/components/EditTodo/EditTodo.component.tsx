@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useQueryClient, useMutation } from 'react-query';
 import { Box, Grid } from '@mui/material';
 import { toast } from 'react-hot-toast';
+import { AxiosError } from 'axios';
 import { EditTodoForm } from './EditTodo.styled';
 import { ButtonComponent } from '../Button';
 import { ITodoEdit } from '../../types/AddTodo.types';
@@ -27,8 +28,8 @@ export const EditTodoComponent = () => {
       onAddTodoSuccess();
       toast.success('Todo edited successfully!');
     },
-    onError: () => {
-      toast.error('Todo wasnt added!');
+    onError: (e: AxiosError) => {
+      toast.error(`Some error occurred while editing in: ${e.request.responseText}. ${e.message}`);
     }
   });
 

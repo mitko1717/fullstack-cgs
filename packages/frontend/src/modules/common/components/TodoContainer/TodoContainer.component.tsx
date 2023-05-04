@@ -11,17 +11,18 @@ import {
   ButtonGrid,
   ContainerInputButtons
 } from './TodoContainer.styled';
-import { ITodo } from '../../../../interfaces/interface';
+import { ITodo, IUser } from '../../../../interfaces/interface';
 import { TodoElementContainer } from '../TodoElement';
 import { TodoSlider } from './TodoSlider';
 import { APP_KEYS } from '../../consts';
 import { ButtonComponent } from '../Button';
 import todoService from '../../../../service/todo.service';
-import { QUERY_KEYS } from '../../consts/app-keys.const';
+import { QUERY_KEYS, STORAGE_KEYS } from '../../consts/app-keys.const';
 import Layout from '../Layout';
 import { buttons } from './buttons';
 import { IParams } from '../../types/TodosParams.types';
 import { useGetAllSuccess } from '../../../../helper/onSuccess';
+import userService from '../../../../service/user.service';
 
 export const TodoContainerContainer = () => {
   const onGetAllSuccess = useGetAllSuccess();
@@ -33,15 +34,25 @@ export const TodoContainerContainer = () => {
     { search: '', status: '', list: '' }
   ]);
 
+  const email = localStorage.getItem(STORAGE_KEYS.EMAIL);
+  const { data: userData } = useQuery<IUser>([QUERY_KEYS.USER, email], async () =>
+    userService.getUserByEmail(email!)
+  );
+
   const fetchTodos = async ({ queryKey }: { queryKey: QueryKey }) => {
     const [, params] = queryKey as [string, IParams];
     const { search = '', status = '', list = '' } = params;
-    return todoService.getAllTodos({ search, status, list });
+    return todoService.getAllTodos({ search, status, list, userId: userData?.id! });
   };
 
-  const { data, isLoading, isError } = useQuery<ITodo[]>(queryK, fetchTodos, {
+  const {
+    data: todosData,
+    isLoading,
+    isError
+  } = useQuery<ITodo[]>(queryK, fetchTodos, {
     refetchOnWindowFocus: false,
-    onSuccess: onGetAllSuccess
+    onSuccess: onGetAllSuccess,
+    enabled: !!userData // start fetching data only after userData is defined
   });
 
   const handlePrivateOrPublicClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -105,7 +116,7 @@ export const TodoContainerContainer = () => {
           fullWidth
         />
       </ContainerInputButtons>
-      {data ? (
+      {todosData ? (
         <Box>
           <ButtonBox>
             <Link to={APP_KEYS.ROUTER_KEYS.ADDTODO}>
@@ -113,13 +124,13 @@ export const TodoContainerContainer = () => {
             </Link>
           </ButtonBox>
           <TodoContainer>
-            {data.map((item) => (
+            {todosData.map((item) => (
               <TodoElementContainer key={item.id} item={item} />
             ))}
           </TodoContainer>
           {/* tablet slider */}
           <SliderContainer>
-            <TodoSlider items={data} />
+            <TodoSlider items={todosData} />
           </SliderContainer>
         </Box>
       ) : (

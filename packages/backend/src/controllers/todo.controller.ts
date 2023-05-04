@@ -12,8 +12,7 @@ export class TodoController {
   }
 
   async getAllTodo(req: IAuthenticatedRequest) {
-    const userId = Number(req.user) || 1;
-    const { search, status, list } = req.query;
+    const { userId, search, status, list } = req.query;
 
     const todos = await this.todoService.findAll({ userId, search, status, list });
     return todos;

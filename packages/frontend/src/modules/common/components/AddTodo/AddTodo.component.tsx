@@ -20,8 +20,13 @@ import { IUser } from '../../../../interfaces/interface';
 
 export const AddTodoComponent = () => {
   const email = localStorage.getItem(STORAGE_KEYS.EMAIL);
-  const fetchUser = async () => email && (await userService.getUserByEmail(email));
-  const { data } = useQuery<IUser>([QUERY_KEYS.USER, email], fetchUser);
+  const { data } = useQuery<IUser>(
+    [QUERY_KEYS.USER, email],
+    () => userService.getUserByEmail(email!),
+    {
+      enabled: !!email // only fetch data if email exists
+    }
+  );
 
   const onAddTodoSuccess = useOnAddTodoSuccess();
   const addTodo = useMutation((formData: ITodoCreate) => todoService.createTodo(formData), {

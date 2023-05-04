@@ -9,7 +9,8 @@ class TodoService extends HttpService {
       params: {
         search: values.search,
         status: values.status,
-        list: values.list
+        list: values.list,
+        userId: values.userId
       }
     });
   }
