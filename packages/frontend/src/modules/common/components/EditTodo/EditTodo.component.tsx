@@ -3,6 +3,8 @@ import { Formik, useFormik } from 'formik';
 import { Link, useParams } from 'react-router-dom';
 import { useQueryClient, useMutation } from 'react-query';
 import { Box, Grid } from '@mui/material';
+import { toast } from 'react-hot-toast';
+import { AxiosError } from 'axios';
 import { EditTodoForm } from './EditTodo.styled';
 import { ButtonComponent } from '../Button';
 import { ITodoEdit } from '../../types/AddTodo.types';
@@ -22,9 +24,12 @@ export const EditTodoComponent = () => {
   const cashedTodoData = queryClient.getQueryData<ITodo>(['todo', id]);
 
   const editTodo = useMutation((formData: ITodoEdit) => todoService.editTodo(formData), {
-    onSuccess: onAddTodoSuccess,
-    onError: () => {
-      throw new Error();
+    onSuccess: () => {
+      onAddTodoSuccess();
+      toast.success('Todo edited successfully!');
+    },
+    onError: (e: AxiosError) => {
+      toast.error(`Some error occurred while editing in: ${e.request.responseText}. ${e.message}`);
     }
   });
 

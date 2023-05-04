@@ -1,10 +1,17 @@
 import { ITodoCreate, ITodoEdit } from '../modules/common/types/AddTodo.types';
+import { IParams } from '../modules/common/types/TodosParams.types';
 import HttpService from './http.service';
 
 class TodoService extends HttpService {
-  getAllTodos() {
+  getAllTodos(values: IParams) {
     return this.get({
-      url: 'todos'
+      url: 'todos',
+      params: {
+        search: values.search,
+        status: values.status,
+        list: values.list,
+        userId: values.userId
+      }
     });
   }
 
@@ -43,6 +50,18 @@ class TodoService extends HttpService {
   uncompleteTodo(todoId: string | number) {
     return this.put({
       url: `todos/${todoId}/uncomplete`
+    });
+  }
+
+  setPrivateTodo(todoId: string | number) {
+    return this.put({
+      url: `todos/${todoId}/setPrivate`
+    });
+  }
+
+  setNotPrivateTodo(todoId: string | number) {
+    return this.put({
+      url: `todos/${todoId}/unsetPrivate`
     });
   }
 }

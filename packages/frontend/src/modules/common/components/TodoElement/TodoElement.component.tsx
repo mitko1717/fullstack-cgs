@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
+import { toast } from 'react-hot-toast';
 import { ITodo } from '../../../../interfaces/interface';
 import {
   TodoElement,
@@ -23,9 +24,12 @@ export const TodoElementContainer = ({ item }: Item) => {
   const onCompleteSuccess = useOnCompleteSuccess();
 
   const deleteTodo = useMutation((id: number) => todoService.deleteTodo(id), {
-    onSuccess: onDeleteSuccess,
+    onSuccess: () => {
+      onDeleteSuccess();
+      toast.success('Todo deleted successfully!');
+    },
     onError: () => {
-      throw new Error();
+      toast.error('Todo wasnt deleted!');
     }
   });
 
@@ -38,9 +42,12 @@ export const TodoElementContainer = ({ item }: Item) => {
       return todoService.completeTodo(item.id);
     },
     {
-      onSuccess: onCompleteSuccess,
+      onSuccess: () => {
+        onCompleteSuccess();
+        toast.success('Changes successfully made!');
+      },
       onError: () => {
-        throw new Error();
+        toast.error('Something went wrong');
       }
     }
   );

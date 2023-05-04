@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik, Formik } from 'formik';
 import { Link } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Box, Grid } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { AddTodoForm } from './AddTodo.styled';
@@ -14,8 +14,20 @@ import { useOnAddTodoSuccess } from '../../../../helper/onSuccess';
 import GridComponent from '../GridContainer';
 import { initialValuesAddTodo } from '../../types/InitialValuesForms';
 import { formSchemaAddTodo } from '../../../../helper/validation';
+import { QUERY_KEYS, STORAGE_KEYS } from '../../consts/app-keys.const';
+import userService from '../../../../service/user.service';
+import { IUser } from '../../../../interfaces/interface';
 
 export const AddTodoComponent = () => {
+  const email = localStorage.getItem(STORAGE_KEYS.EMAIL);
+  const { data } = useQuery<IUser>(
+    [QUERY_KEYS.USER, email],
+    () => userService.getUserByEmail(email!),
+    {
+      enabled: !!email // only fetch data if email exists
+    }
+  );
+
   const onAddTodoSuccess = useOnAddTodoSuccess();
   const addTodo = useMutation((formData: ITodoCreate) => todoService.createTodo(formData), {
     onSuccess: () => {
@@ -24,7 +36,6 @@ export const AddTodoComponent = () => {
     },
     onError: () => {
       toast.error('Todo wasnt added!');
-      throw new Error();
     }
   });
 
@@ -34,7 +45,7 @@ export const AddTodoComponent = () => {
       description: values.description,
       completed: false,
       private: false,
-      userId: 1
+      userId: data?.id || 1
     };
     addTodo.mutate(formData);
   };
