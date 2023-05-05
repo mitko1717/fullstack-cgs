@@ -58,9 +58,9 @@ export const TodoElementContainer = ({ item }: Item) => {
       <TodoDescription>{item.description}</TodoDescription>
       <TodoButtons>
         <Link to={`/todo/${item.id}`}>
-          <ButtonComponent>View</ButtonComponent>
+          <ButtonComponent>view</ButtonComponent>
         </Link>
-        <ButtonComponent onClick={() => deleteTodo.mutate(item.id)}>Delete</ButtonComponent>
+        <ButtonComponent onClick={() => deleteTodo.mutate(item.id)}>delete</ButtonComponent>
         <ToggleButton toggled={item.completed} onClick={() => completeTodo.mutate()}>
           {item.completed ? <Check /> : <Cross />}
         </ToggleButton>
