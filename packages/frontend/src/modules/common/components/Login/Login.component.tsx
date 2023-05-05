@@ -12,17 +12,17 @@ import GridComponent from '../GridContainer';
 import { useOnLoginSuccess } from '../../../../helper/onSuccess';
 import userService from '../../../../service/user.service';
 import { ILoginData } from '../../types/Login.types';
+import { STORAGE_KEYS } from '../../consts/app-keys.const';
 import { initialValuesLogin } from '../../types/InitialValuesForms';
 import { formSchemaLogin } from '../../../../helper/validation';
-import useAuth from '../../../navigation/useAuth';
 
 export const LoginComponent = () => {
-  const { login } = useAuth();
   const onLoginSuccess = useOnLoginSuccess();
-  const loginHandler = useMutation((formData: ILoginData) => userService.loginUser(formData), {
+  const login = useMutation((formData: ILoginData) => userService.loginUser(formData), {
     onSuccess: (data, formData) => {
-      login(`Bearer ${data}`, formData.email);
       onLoginSuccess();
+      localStorage.setItem(STORAGE_KEYS.TOKEN, `Bearer ${data}`);
+      localStorage.setItem(STORAGE_KEYS.EMAIL, formData.email);
       toast.success('Logged in successfully!');
     },
     onError: (error: AxiosError) => {
@@ -37,7 +37,7 @@ export const LoginComponent = () => {
       email: values.email,
       password: values.password
     };
-    loginHandler.mutate(formData);
+    login.mutate(formData);
   };
 
   const formik = useFormik({

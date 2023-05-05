@@ -7,7 +7,5 @@ export interface IAuthenticatedRequest extends Request {
     search?: string;
     public?: string | boolean;
     completed?: string | boolean;
-    page?: number;
-    limit?: number;
   };
 }

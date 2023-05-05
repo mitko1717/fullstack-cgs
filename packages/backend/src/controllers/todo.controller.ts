@@ -12,8 +12,9 @@ export class TodoController {
   }
 
   async getAllTodo(req: IAuthenticatedRequest) {
-    const { userId, search, status, list, page = 1, limit = 5 } = req.query;
-    const todos = await this.todoService.findAll({ userId, search, status, list, page, limit });
+    const { userId, search, status, list } = req.query;
+
+    const todos = await this.todoService.findAll({ userId, search, status, list });
     return todos;
   }
 

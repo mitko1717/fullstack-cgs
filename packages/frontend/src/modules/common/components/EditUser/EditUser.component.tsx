@@ -12,24 +12,22 @@ import { APP_KEYS } from '../../consts';
 import GridComponent from '../GridContainer';
 import userService from '../../../../service/user.service';
 import Layout from '../Layout';
-import { QUERY_KEYS } from '../../consts/app-keys.const';
+import { QUERY_KEYS, STORAGE_KEYS } from '../../consts/app-keys.const';
 import { initialValuesEditForm } from '../../types/InitialValuesForms';
 import { formSchemaEditUser } from '../../../../helper/validation';
-import useAuth from '../../../navigation/useAuth';
 
 export const EditUserComponent = () => {
-  const { email, logout } = useAuth();
+  const email = localStorage.getItem(STORAGE_KEYS.EMAIL) || 'diman12345677@gmail.com';
 
-  const { data, isLoading, isError } = useQuery<IUser>([QUERY_KEYS.USER, email!], async () => {
-    const user = await userService.getUserByEmail(email!);
+  const { data, isLoading, isError } = useQuery<IUser>([QUERY_KEYS.USER, email], async () => {
+    const user = await userService.getUserByEmail(email);
     return user;
   });
 
   const onLogoutSuccess = useOnLogoutSuccess();
-  const logoutHandler = useMutation(() => userService.logoutUser(), {
+  const logout = useMutation(() => userService.logoutUser(), {
     onSuccess: () => {
       onLogoutSuccess();
-      logout();
       toast.success('Log out successfully!');
     },
     onError: () => {
@@ -38,7 +36,7 @@ export const EditUserComponent = () => {
   });
 
   const passwordChange = useMutation(
-    (password: string) => userService.changePassword({ email: email!, password }),
+    (password: string) => userService.changePassword({ email, password }),
     {
       onSuccess: () => {
         toast.success('password was successfully changed and sent on ur mail!');
@@ -114,7 +112,7 @@ export const EditUserComponent = () => {
       </Formik>
 
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <ButtonComponent onClick={() => logoutHandler.mutate()}>LOG OUT</ButtonComponent>
+        <ButtonComponent onClick={() => logout.mutate()}>LOG OUT</ButtonComponent>
       </Box>
     </Layout>
   );

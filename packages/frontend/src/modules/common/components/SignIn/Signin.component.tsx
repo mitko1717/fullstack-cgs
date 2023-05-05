@@ -11,16 +11,16 @@ import GridComponent from '../GridContainer';
 import { ISignupData } from '../../types/Login.types';
 import { useOnLoginSuccess } from '../../../../helper/onSuccess';
 import userService from '../../../../service/user.service';
+import { STORAGE_KEYS } from '../../consts/app-keys.const';
 import { initialValuesSignIn } from '../../types/InitialValuesForms';
 import { formSchemaSignIn } from '../../../../helper/validation';
-import useAuth from '../../../navigation/useAuth';
 
 export const SigninComponent = () => {
-  const { login } = useAuth();
   const onSigninSuccess = useOnLoginSuccess();
   const signin = useMutation((formData: ISignupData) => userService.registerUser(formData), {
     onSuccess: (data, formData) => {
-      login(`Bearer ${data}`, formData.email);
+      localStorage.setItem(STORAGE_KEYS.TOKEN, `Bearer ${data}`);
+      localStorage.setItem(STORAGE_KEYS.EMAIL, formData.email);
       onSigninSuccess();
       toast.success('signin successfully!');
     },

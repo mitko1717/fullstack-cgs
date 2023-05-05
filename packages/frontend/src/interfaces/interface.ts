@@ -13,9 +13,3 @@ export interface IUser {
   email: string;
   password: string;
 }
-
-export interface ITodosData {
-  todos: ITodo[];
-  totalCount: number;
-  totalPages: number;
-}
