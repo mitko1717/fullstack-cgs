@@ -51,6 +51,9 @@ export const TodoViewComponent = () => {
     return todoService.completeTodo(ind);
   }, onFinish);
 
+  if (isLoading) return <CircularProgress />;
+  if (isError) return <Alert severity="error">Error fetching data happened!</Alert>;
+
   return (
     <Layout>
       {data ? (
@@ -89,8 +92,6 @@ export const TodoViewComponent = () => {
       ) : (
         <span />
       )}
-      {isLoading && <CircularProgress />}
-      {isError && <Alert severity="error">Error fetching data happened!</Alert>}
     </Layout>
   );
 };

@@ -7,7 +7,7 @@ export default class TodoService {
     return todo;
   }
 
-  async findAll({ userId, search, status, list, page = 1, limit = 5 }: IParams) {
+  async findAll({ userId, search, status, list }: IParams) {
     const query = Todo.createQueryBuilder('todo').where('todo.userId = :userId', { userId });
 
     query
@@ -20,19 +20,12 @@ export default class TodoService {
       .andWhere(status === 'private' ? 'todo.private = true' : '1=1')
       .andWhere(list === 'completed' ? 'todo.completed = true' : '1=1');
 
-    const [todos, totalCount] = await Promise.all([
-      query
-        .orderBy('todo.id', 'DESC')
-        .leftJoinAndSelect('todo.user', 'user')
-        .skip((page - 1) * limit)
-        .take(limit)
-        .getMany(),
-      query.getCount()
-    ]);
+    const todos = await query
+      .orderBy('todo.id', 'DESC')
+      .leftJoinAndSelect('todo.user', 'user')
+      .getMany();
 
-    const totalPages = Math.ceil(totalCount / limit);
-
-    return { todos, totalCount, totalPages };
+    return todos;
   }
 
   async addTodo(todo: Todo) {

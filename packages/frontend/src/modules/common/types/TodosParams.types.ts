@@ -3,6 +3,4 @@ export interface IParams {
   status: string;
   list: string;
   userId: string | number;
-  page: number;
-  limit?: number;
 }
