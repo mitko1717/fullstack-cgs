@@ -12,10 +12,10 @@ const HeaderLinks = styled('header')`
 const Header = () => (
   <HeaderLinks>
     <Link to={ROUTER_KEYS.CONTENT}>
-      <ButtonComponent>Todo List</ButtonComponent>
+      <ButtonComponent>todo list</ButtonComponent>
     </Link>
     <Link to={ROUTER_KEYS.MY_PROFILE}>
-      <ButtonComponent>My Profile</ButtonComponent>
+      <ButtonComponent>my profile</ButtonComponent>
     </Link>
   </HeaderLinks>
 );

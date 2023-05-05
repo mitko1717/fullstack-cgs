@@ -51,26 +51,23 @@ export const TodoViewComponent = () => {
     return todoService.completeTodo(ind);
   }, onFinish);
 
-  if (isLoading) return <CircularProgress />;
-  if (isError) return <Alert severity="error">Error fetching data happened!</Alert>;
-
   return (
     <Layout>
       {data ? (
         <TodoView>
           <>
             <Title>{data.title}</Title>
-            <span>Description:</span>
+            <span>description:</span>
             <Description>{data.description}</Description>
             <Buttons>
               <ButtonDiv>
-                <span>Complete</span>
+                <span>complete</span>
                 <ToggleButton toggled={data.completed} onClick={() => completeTodo.mutate(data.id)}>
                   {data.completed ? <Check /> : <Cross />}
                 </ToggleButton>
               </ButtonDiv>
               <ButtonDiv>
-                <span>Private</span>
+                <span>private</span>
                 <ToggleButton
                   toggled={data.private}
                   onClick={() => setPrivateStatusTodo.mutate(data.id)}
@@ -92,6 +89,8 @@ export const TodoViewComponent = () => {
       ) : (
         <span />
       )}
+      {isLoading && <CircularProgress />}
+      {isError && <Alert severity="error">Error fetching data happened!</Alert>}
     </Layout>
   );
 };

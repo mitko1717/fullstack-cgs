@@ -7,7 +7,6 @@ export function useGetAllSuccess() {
 
   async function onGetAllSuccess() {
     await queryClient.refetchQueries(QUERY_KEYS.TODOS);
-    await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
   }
   return onGetAllSuccess;
 }
@@ -17,8 +16,7 @@ export function useOnAddTodoSuccess() {
   const queryClient = useQueryClient();
 
   async function onAddTodoSuccess() {
-    await queryClient.refetchQueries(QUERY_KEYS.TODOS);
-    await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
+    await queryClient.refetchQueries([QUERY_KEYS.TODOS]);
     navigate(ROUTER_KEYS.CONTENT);
   }
   return onAddTodoSuccess;
@@ -28,7 +26,7 @@ export function useOnDeleteSuccess() {
   const queryClient = useQueryClient();
 
   async function onDeleteSuccess() {
-    await queryClient.invalidateQueries(QUERY_KEYS.TODOS);
+    await queryClient.refetchQueries([QUERY_KEYS.TODOS]);
   }
   return onDeleteSuccess;
 }
